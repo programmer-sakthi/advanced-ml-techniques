@@ -1,0 +1,177 @@
+Problem Statement
+
+
+
+Understanding conditional probability is fundamental in medical diagnostics and data science. When a medical test returns a positive result, it's crucial to calculate the actual probability that a patient has the disease, considering factors like the test's accuracy, disease prevalence, and false positive rates.
+
+
+
+The healthcare analytics team is working with a diabetes dataset and needs to apply Bayes' Theorem to calculate conditional probabilities in different diagnostic scenarios. Bayes' Theorem helps determine the probability of having a disease given a positive test result, taking into account:
+
+
+
+Prior probability: The base rate of disease occurrence in the population.
+Sensitivity: The probability that the test correctly identifies those with the disease (true positive rate).
+False positive rate: The probability that the test incorrectly identifies healthy individuals as having the disease.
+
+
+The team needs to accomplish the following:
+
+
+
+Create a reusable probability calculation function – Define a function named calc_probability in the ML_Modules.py file that:
+
+
+
+Accepts four parameters representing probability values:
+P_disease: Prior probability of having the disease.
+P_positive_given_disease: Probability of a positive test given the patient has the disease (sensitivity).
+P_positive_given_no_disease: Probability of a positive test given the patient does not have the disease (false positive rate).
+P_no_disease: Prior probability of not having the disease.
+Applies Bayes' Theorem to calculate the posterior probability: the probability of having the disease given a positive test result.
+Displays the calculated probability with 4 decimal precision.
+Returns the calculated probability value.
+
+
+Apply the function to two diagnostic scenarios:
+
+
+
+Scenario 1: Calculate the probability when the false positive rate is 5%.
+Scenario 2: Calculate the probability when the false positive rate is 10%.
+
+
+Both scenarios use the same disease prevalence (0.1%) and test sensitivity (95%), but different false positive rates to demonstrate how test specificity impacts the reliability of positive results.
+
+
+
+This analysis helps the team understand how test accuracy characteristics affect diagnostic confidence and clinical decision-making.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age,FamilyHistory,HbA1c,Outcome,GlucoseCategory,HealthText
+
+148,72,35,0,33.6,0.627,50,0,11,1,High Glucose Level,Age group: Middle-aged | BMI status: Obese | Glucose category: High Glucose Level
+
+85,66,29,0,26.6,0.351,31,0,5,0,Low Glucose Risk,Age group: Middle-aged | BMI status: Overweight | Glucose category: Low Glucose Risk
+
+183,64,0,0,23.3,0.672,32,1,11,1,Very High Glucose Risk,Age group: Middle-aged | BMI status: Normal | Glucose category: Very High Glucose Risk
+
+Input format :
+The program prompts the user to enter the name of the CSV file containing health data.
+Input must include the file extension .csv.
+Output format :
+The program generates probability calculations for two scenarios:
+
+
+
+For each scenario:
+
+
+
+1. Scenario header line:
+
+
+
+Format: "Scenario X: False positive rate = Y%" where X is the scenario number (1 or 2) and Y is the false positive rate percentage.
+
+
+2. Probability calculation result:
+
+
+
+Format: "Probability of having disease given a positive test: Z.ZZZZ"
+The probability value is displayed with exactly 4 decimal places.
+This represents the posterior probability calculated using Bayes' Theorem.
+
+
+3. Blank line separator between scenarios.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+File must be a valid comma-separated CSV file with .csv extension.
+File must exist in the same directory as the Python script.
+File must contain a header row with column names.
+Expected columns include: Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age, FamilyHistory, HbA1c, Outcome, GlucoseCategory, HealthText
+Note: For this task, the CSV file is loaded but not actively used in calculations. The probability calculations are based on predefined probability values, not on the dataset contents.
+
+
+Module Requirements
+
+
+
+ML_Modules.py file must exist in the same directory as the main script.
+Required function: calc_probability(P_disease, P_positive_given_disease, P_positive_given_no_disease, P_no_disease)
+Must accept exactly four parameters, all representing probability values (floats between 0 and 1).
+Must implement Bayes' Theorem calculation.
+Must handle division by zero by checking if denominator equals 0.
+If denominator is 0, must print "Invalid probability values." and return None.
+Must print the result with exactly 4 decimal places.
+Must return the calculated probability value.
+
+
+Column Data Constraints
+
+
+
+Glucose, BloodPressure, SkinThickness, Insulin, Age, HbA1c: Integer values representing various health measurements.
+BMI, DiabetesPedigreeFunction: Float values representing continuous measurements.
+FamilyHistory, Outcome: Binary integer values (0 or 1).
+GlucoseCategory: String values categorizing glucose levels (e.g., Low Glucose Risk, Moderate Glucose Level, High Glucose Level, Very High Glucose Risk).
+HealthText: String containing descriptive patient information.
+Some values may be 0 or missing (e.g., Insulin, SkinThickness, BloodPressure).
+
+
+Program Constraints
+
+
+
+The program must import the ML_Modules module.
+If the CSV file is not found, the program prints: "Error: File '{filename}' not found." and terminates.
+The program must call the calc_probability function exactly twice, once for each scenario.
+
+
+Probability Parameters for Each Scenario
+
+
+
+Scenario 1: False positive rate = 5%
+P_disease = 0.001 (0.1% disease prevalence in population)
+P_positive_given_disease = 0.95 (95% test sensitivity)
+P_positive_given_no_disease = 0.05 (5% false positive rate)
+P_no_disease = 0.999 (calculated as 1 - P_disease)
+
+
+Scenario 2: False positive rate = 10%
+P_disease = 0.001 (0.1% disease prevalence in population)
+P_positive_given_disease = 0.95 (95% test sensitivity)
+P_positive_given_no_disease = 0.10 (10% false positive rate)
+P_no_disease = 0.999 (calculated as 1 - P_disease)
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+Scenario 1: False positive rate = 5%
+Probability of having disease given a positive test: 0.0187
+
+Scenario 2: False positive rate = 10%
+Probability of having disease given a positive test: 0.0094

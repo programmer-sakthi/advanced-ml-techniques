@@ -1,0 +1,280 @@
+Problem Statement
+
+
+
+The healthcare analytics team needs to build a predictive model to classify diabetes diagnosis based on patient health metrics. Using the Gaussian Naïve Bayes algorithm, the team will develop a binary classifier that predicts whether a patient has diabetes (Outcome = 1) or not (Outcome = 0) based on key health indicators.
+
+
+
+This task involves the complete machine learning workflow: data loading, feature selection, train-test splitting, model training, prediction, and comprehensive performance evaluation. The team must also create reusable evaluation functions to ensure consistent model assessment across different classification tasks.
+
+
+
+The team needs to accomplish the following objectives:
+
+
+
+1. Import required Python packages:
+
+
+
+Load necessary libraries for data manipulation (pandas, numpy), machine learning (scikit-learn), and model evaluation.
+
+
+2. Prepare and explore the dataset:
+
+
+
+Load the diabetes dataset from a CSV file.
+Display the first 5 rows to understand data structure.
+Display data types of all columns to verify numeric and categorical features.
+
+
+3.Select features and target variable:
+
+
+
+Feature columns: Glucose, BMI, Age, FamilyHistory, HbA1c
+Target variable: Outcome (0 = No diabetes, 1 = Has diabetes)
+These features are selected based on medical relevance for diabetes prediction.
+
+
+4. Split data into training and testing sets:
+
+
+
+Use a 67-33 split ratio (67% training, 33% testing).
+Set random_state=42 for reproducibility.
+Separate features (X) and target labels (y) for both sets.
+
+
+5. Train Gaussian Naïve Bayes Classifier:
+
+
+
+Initialize a GaussianNB classifier.
+Train the model on the training data (X_train, y_train).
+Display confirmation message when training is complete.
+
+
+6. Make predictions on test data:
+
+
+
+Use the trained model to predict outcomes for the test set (X_test).
+Display predicted values as a NumPy array.
+
+
+7. Create reusable evaluation function in ML_Modules.py:
+
+
+
+Define evaluate_classifier(y_test, y_pred) function that:
+Computes confusion matrix showing true positives, true negatives, false positives, and false negatives.
+Calculates accuracy, recall, f1-score, and precision metrics.
+Displays all metrics with exactly 3 decimal precision.
+
+
+8. Evaluate model performance:
+
+
+
+Import the ML_Modules module.
+Call evaluate_classifier function with actual test labels (y_test) and predictions (y_pred).
+Analyze performance metrics to assess model effectiveness.
+
+
+This comprehensive workflow demonstrates the end-to-end process of building and evaluating a classification model for medical diagnosis prediction.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age,FamilyHistory,HbA1c,Outcome,GlucoseCategory,HealthText
+
+148,72,35,0,33.6,0.627,50,0,11,1,High Glucose Level,Age group: Middle-aged | BMI status: Obese | Glucose category: High Glucose Level
+
+85,66,29,0,26.6,0.351,31,0,5,0,Low Glucose Risk,Age group: Middle-aged | BMI status: Overweight | Glucose category: Low Glucose Risk
+
+183,64,0,0,23.3,0.672,32,1,11,1,Very High Glucose Risk,Age group: Middle-aged | BMI status: Normal | Glucose category: Very High Glucose Risk
+
+Input format :
+The program prompts the user to enter the name of the CSV file containing health data.
+Input must include the file extension .csv.
+Output format :
+The program generates outputs in the following sequence:
+
+
+
+1. First 5 rows of the dataset:
+
+
+
+Displays a DataFrame showing the first 5 patient records.
+Includes all 12 columns.
+Shows dimension indicator: [5 rows x 12 columns]
+Followed by a blank line.
+
+
+2. Data types of each column:
+
+
+
+Lists each column name with its corresponding data type.
+Format: column_name dtype
+Numeric columns show int64 or float64.
+Text columns show object.
+Ends with dtype: object on its own line.
+Followed by a blank line.
+
+
+3. Model training confirmation:
+
+
+
+Displays: "Model trained."
+Followed by a blank line.
+
+
+4. Predicted values:
+
+
+
+Header: "Predicted Values: array([...])"
+Displays predictions as a NumPy integer array representation.
+Format: array([prediction1, prediction2, ..., predictionN])
+Each prediction is either 0 (no diabetes) or 1 (has diabetes).
+Array length equals the number of test samples (33% of dataset).
+Followed by a blank line.
+
+
+5. Confusion Matrix:
+
+
+
+Header line: "Confusion Matrix"
+Displays a 2x2 matrix:
+[[TN FP]
+
+[FN TP]]
+
+TN (True Negatives): Correctly predicted as no diabetes (class 0).
+FP (False Positives): Incorrectly predicted as diabetes when actually no diabetes.
+FN (False Negatives): Incorrectly predicted as no diabetes when actually has diabetes.
+TP (True Positives): Correctly predicted as has diabetes (class 1).
+Followed by separator: "==================="
+
+
+6. Performance Metrics:
+
+
+
+Four lines displaying metrics with exactly 3 decimal precision:
+accuracy: X.XXX - Proportion of correct predictions.
+recall: X.XXX - Sensitivity, ability to find all positive cases.
+f1-score: X.XXX - Harmonic mean of precision and recall.
+precision: X.XXX - Positive predictive value.
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+File must be a valid comma-separated CSV file with .csv extension.
+File must exist in the same directory as the Python script.
+File must contain a header row with exact column names (case-sensitive).
+All expected columns must be present: Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age, FamilyHistory, HbA1c, Outcome, GlucoseCategory, HealthText
+Dataset must contain sufficient samples for meaningful train-test split.
+
+
+Module Requirements
+
+
+
+ML_Modules.py file must exist in the same directory as the main script.
+Required imports in ML_Modules.py: from sklearn.metrics import confusion_matrix, recall_score, f1_score, accuracy_score, precision_score
+Required function: evaluate_classifier(y_test, y_pred)
+Parameters: actual test labels (y_test), predicted labels (y_pred).
+Must compute: confusion matrix, accuracy, recall, f1-score, precision.
+Must display confusion matrix followed by separator line "===================" (19 equal signs).
+Must display metrics with exactly 3 decimal precision in the format: metric_name: X.XXX
+Metrics are calculated for binary classification (class 0 and class 1).
+
+
+Column Data Constraints
+
+
+
+Glucose: Integer values representing glucose concentration (typically 0-200 mg/dL range).
+BloodPressure: Integer values (typically 0-120 mm Hg range, 0 may indicate missing data).
+SkinThickness: Integer values in mm (0 may indicate missing data).
+Insulin: Integer values in mu U/ml (0 may indicate missing data).
+BMI: Float values representing body mass index (typically 0-70 range, 0 may indicate missing data).
+DiabetesPedigreeFunction: Float values representing genetic predisposition (typically 0-2.5 range).
+Age: Integer values representing age in years (typically 20-80 range).
+FamilyHistory: Binary integer (0 = No family history, 1 = Has family history).
+HbA1c: Integer values representing hemoglobin A1c level (typically 4-15 range).
+Outcome: Binary integer (0 = No diabetes, 1 = Has diabetes) - Target variable.
+GlucoseCategory: String values categorizing glucose risk levels.
+HealthText: String containing patient demographic summary.
+
+
+Program Constraints
+
+
+
+The program must import ML_Modules.
+If the CSV file is not found, the program prints: "Error: File '{filename}' not found." and terminates.
+Warnings must be suppressed using both warnings.simplefilter("ignore") and warnings.filterwarnings('ignore').
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+   Glucose  ...                                         HealthText
+0      148  ...  Age group: Middle-aged | BMI status: Obese | G...
+1       85  ...  Age group: Middle-aged | BMI status: Overweigh...
+2      183  ...  Age group: Middle-aged | BMI status: Normal | ...
+3       89  ...  Age group: Young | BMI status: Overweight | Gl...
+4      137  ...  Age group: Middle-aged | BMI status: Obese | G...
+
+[5 rows x 12 columns]
+
+Glucose                       int64
+BloodPressure                 int64
+SkinThickness                 int64
+Insulin                       int64
+BMI                         float64
+DiabetesPedigreeFunction    float64
+Age                           int64
+FamilyHistory                 int64
+HbA1c                         int64
+Outcome                       int64
+GlucoseCategory              object
+HealthText                   object
+dtype: object
+
+Model trained.
+
+Predicted Values: array([1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1])
+
+Confusion Matrix
+[[3 4]
+ [4 6]]
+===================
+accuracy: 0.529
+recall: 0.600
+f1-score: 0.600
+precision: 0.600
