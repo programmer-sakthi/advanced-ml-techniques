@@ -1,0 +1,161 @@
+Multi File Programming Question
+Problem Statement
+
+
+
+The HR analytics team needs to ensure data quality and understand relationships between variables before building predictive models for employee retention. Data quality issues such as missing values can significantly impact model performance, while understanding correlations helps identify which features are most relevant for prediction.
+
+The team needs to accomplish two critical data preparation tasks:
+
+
+
+Identify and report missing values – Detect any rows in the dataset that contain missing (null/NaN) values across any column. This step is crucial for understanding data completeness and deciding on appropriate treatment strategies (imputation, removal, etc.). The program must clearly display which rows have missing values or confirm if the dataset is complete.
+
+
+Analyze feature correlations – Compute and display the correlation matrix for all numeric columns in the dataset. Correlation analysis helps identify:
+Strong positive or negative relationships between features
+Potential multicollinearity issues that could affect model performance
+Which features are most strongly associated with the target variable (left)
+Redundant features that provide similar information
+
+
+This analysis provides essential insights into data quality and feature relationships, enabling the team to make informed decisions about data preprocessing and feature selection for subsequent modeling tasks.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data:
+
+
+
+satisfaction_level,last_evaluation,number_project,average_montly_hours,time_spend_company,Work_accident,left,promotion_last_5years,Department,salary
+
+0.38,0.53,2,157,3,0,1,0,sales,low
+
+0.8,0.86,5,262,6,0,1,0,sales,medium
+
+0.11,7,272,4,0,1,0,medium
+
+0.72,0.87,5,223,5,0,1,0,sales,low
+
+
+
+Note: Some rows may contain missing values (NaN) in one or more columns, as seen in row 2 where number_project, Department, and salary are missing.
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing employee data.
+Input must include the file extension .csv.
+Output format :
+The program generates two distinct outputs in sequence:
+
+
+
+1. Rows with missing values:
+
+
+
+Header line: "Rows with missing values (if any):"
+If missing values exist:
+Displays a DataFrame showing all rows that contain at least one missing (NaN) value.
+Includes all columns for the affected rows.
+Ends with dimension indicator: [X rows x 10 columns] where X is the number of rows with missing values.
+If no missing values exist:
+Prints: "No missing values found in the dataset." followed by a blank line.
+
+
+2. Correlation matrix of numeric columns:
+
+
+
+Header line: "Correlation matrix of numeric columns:"
+Displays a correlation matrix computed using pandas .corr() method.
+Shows correlation coefficients between all pairs of numeric columns.
+Matrix format with column names as both row and column headers.
+Values range from -1.0 (perfect negative correlation) to 1.0 (perfect positive correlation).
+Ends with dimension indicator: [Y rows x Y columns] where Y is the number of numeric columns.
+
+
+Note: If a column has constant values (no variance) or all missing values, its correlations will show as NaN.
+
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+File must be a valid comma-separated CSV file with .csv extension.
+File must exist in the same directory as the Python script.
+File must contain a header row with exact column names (case-sensitive).
+File must not be empty.
+All expected columns must be present: satisfaction_level, last_evaluation, number_project, average_montly_hours, time_spend_company, Work_accident, left, promotion_last_5years, Department, salary
+
+
+Column Data Constraints
+
+
+
+Numeric columns (satisfaction_level, last_evaluation, number_project, average_montly_hours, time_spend_company, Work_accident, left, promotion_last_5years):
+Can contain valid numeric values (int or float) or missing values (NaN).
+Missing values are acceptable and will be detected by the program.
+
+
+Categorical columns (Department, salary):
+Can contain string values or missing values (NaN).
+Missing values are acceptable and will be detected by the program.
+satisfaction_level: Float values typically between 0.0 and 1.0, but may contain outliers or missing values.
+last_evaluation: Float values typically between 0.0 and 1.0, but may contain outliers or missing values.
+Work_accident, left, promotion_last_5years: Binary values (0 or 1), but may contain missing values.
+Department: String values representing department names, may contain missing values.
+salary: String values (low, medium, high), may contain missing values.
+
+
+Program Constraints
+
+
+
+The program uses pandas for data loading and analysis.
+If the CSV file is not found, the program prints: "Error: File '{filename}' not found." and exits.
+If the CSV file is empty or invalid, the program prints: "Error: File '{filename}' is empty or invalid." and exits.
+Missing value detection uses .isnull().any(axis=1) to identify rows with at least one missing value across any column.
+The program displays the complete rows (all columns) where missing values are detected, not just the columns with missing values.
+The correlation matrix is computed only for numeric columns using .select_dtypes(include=['number']).
+Categorical columns (Department, salary) are automatically excluded from correlation analysis.
+The .corr() method computes Pearson correlation coefficients by default.
+If a numeric column has no variance (all identical values) or contains only missing values, correlations involving that column will display as NaN.
+The program does NOT perform any missing value imputation or removal—it only reports them.
+All print statements must match the exact format shown in the sample outputs, including spacing, blank lines, and dimension indicators.
+The program suppresses warnings using warnings.simplefilter(action='ignore').
+No data modification occurs—the program only reads and displays information.
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+Rows with missing values (if any):
+   satisfaction_level  last_evaluation  ...  Department  salary
+2                0.11              7.0  ...         NaN     NaN
+
+[1 rows x 10 columns]
+
+Correlation matrix of numeric columns:
+                      satisfaction_level  ...      left
+satisfaction_level              1.000000  ...  0.191038
+last_evaluation                -0.133676  ... -0.979890
+number_project                 -0.197009  ... -0.998953
+average_montly_hours            0.087538  ...  0.396414
+time_spend_company              0.585999  ...  0.454941
+Work_accident                  -0.135261  ... -0.700140
+left                            0.191038  ...  1.000000
+
+[7 rows x 7 columns]
