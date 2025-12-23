@@ -1,0 +1,240 @@
+Problem Statement
+
+
+
+Machine learning algorithms require numeric input data to function properly. However, the employee dataset contains categorical variables (Department and salary) stored as text values. Before building predictive models for employee retention, these categorical variables must be converted into numeric format through a process called encoding or dummy variable creation.
+
+
+
+Additionally, to properly evaluate model performance, the dataset must be split into training and testing subsets. The training set is used to teach the model patterns, while the test set evaluates how well the model generalizes to unseen data.
+
+
+
+The team needs to accomplish two critical data preparation tasks:
+
+
+
+1. Convert categorical variables to numeric format – Transform the salary and Department columns from text values into numeric dummy variables using one-hot encoding:
+
+
+
+Salary encoding: Convert salary categories (low, medium, high) into binary dummy columns (salary_low, salary_medium, salary_high).
+Department encoding: Convert department names (sales, technical, support, etc.) into binary dummy columns (dept_sales, dept_technical, dept_support, etc.).
+Each dummy variable is a binary indicator (True/False or 1/0) representing the presence of that category.
+After creating dummy variables, they are concatenated with the original dataframe.
+
+
+2. Split data into training and testing sets – Divide the complete dataset (including all dummy variables) into:
+
+
+
+Training set: 70% of the data used to train machine learning models.
+Test set: 30% of the data used to evaluate model performance.
+Further separate the features (X) from the target variable (left) in both training and test sets.
+
+
+This preprocessing ensures that the data is in the correct numeric format for machine learning algorithms and properly partitioned for model training and evaluation.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+satisfaction_level,last_evaluation,number_project,average_montly_hours,time_spend_company,Work_accident,left,promotion_last_5years,Department,salary
+
+0.38,0.53,2,157,3,0,1,0,sales,low
+
+0.8,0.86,5,262,6,0,1,0,sales,medium
+
+0.11,0.88,7,272,4,0,1,0,sales,medium
+
+0.72,0.87,5,223,5,0,1,0,sales,low
+
+0.37,0.52,2,159,3,0,1,0,sales,low
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing employee data.
+Input must include the file extension .csv.
+Output format :
+The program generates outputs in the following sequence:
+
+
+
+1. Creating dummy variables for salary:
+
+
+
+Header line: "Creating dummy variables for salary:"
+Displays the first 5 rows of the dataframe after salary dummy columns are added.
+New columns created: salary_low, salary_medium, salary_high (depending on unique salary values in the dataset).
+Dummy columns contain boolean values (True/False).
+Shows dimension indicator: [5 rows x N columns] where N is the total number of columns after adding salary dummies followed by a blank line.
+
+
+2. Creating dummy variables for department:
+
+
+
+Header line: "Creating dummy variables for department:"
+Displays the first 5 rows of the dataframe after department dummy columns are added.
+New columns created: dept_<department_name> for each unique department (e.g., dept_sales, dept_technical, dept_support, dept_IT, dept_hr, dept_accounting, dept_management, dept_marketing, dept_RandD, dept_product_mng).
+Dummy columns contain boolean values (True/False).
+Shows dimension indicator: [5 rows x M columns] where M is the total number of columns after adding both salary and department dummies followed by a blank line.
+
+
+3. Final dataframe with dummy variables:
+
+
+
+Header line: "Final dataframe with dummy variables:"
+Displays the first 5 rows of the complete dataframe including all original columns and all newly created dummy variables.
+Shows dimension indicator: [5 rows x M columns] followed by a blank line.
+
+
+4. Training and test dataset sizes:
+
+
+
+Line 1: "Size of training dataset: (rows, columns)"
+Line 2: "Size of test dataset: (rows, columns)"
+Shows the shape (dimensions) of training and test sets after 70-30 split.
+Training set contains approximately 70% of rows; test set contains approximately 30% of rows.
+Both sets contain all columns (original + dummy variables).
+Followed by a blank line.
+
+
+5. Shapes of input/output features after train-test split:
+
+
+
+Header line: "Shapes of input/output features after train-test split:"
+Single line output: (X_train_shape) (y_train_shape) (X_test_shape) (y_test_shape)
+Format: (rows, columns) (rows,) (rows, columns) (rows,)
+X_train and X_test have one fewer column than the full dataset (because left column is removed).
+y_train and y_test are 1D arrays containing only the left column values.
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+File must be a valid comma-separated CSV file with .csv extension.
+File must exist in the same directory as the Python script.
+File must contain a header row with exact column names (case-sensitive).
+All expected columns must be present: satisfaction_level, last_evaluation, number_project, average_montly_hours, time_spend_company, Work_accident, left, promotion_last_5years, Department, salary
+The Department and salary columns must exist and contain string values for dummy variable creation.
+The left column must exist as it serves as the target variable for train-test splitting.
+
+
+Column Data Constraints
+
+
+
+satisfaction_level, last_evaluation: Float values (typically 0.0 to 1.0).
+number_project, average_montly_hours, time_spend_company: Integer values.
+Work_accident, left, promotion_last_5years: Binary integer values (0 or 1).
+Department: Non-empty string values representing department names. Common values include: sales, technical, support, IT, hr, accounting, management, marketing, RandD, product_mng.
+salary: Non-empty string values. Must be one of: low, medium, high.
+No missing values are expected in Department and salary columns for proper dummy variable creation.
+
+
+Program Constraints
+
+
+
+The program uses pandas for data manipulation and scikit-learn for train-test splitting.
+If the CSV file is not found, the program prints: "Error: File '{filename}' not found." and exits.
+
+
+Dummy variable creation:
+
+
+
+Uses pd.get_dummies() function to create one-hot encoded columns.
+For salary: prefix is "salary" (creates salary_low, salary_medium, salary_high, etc.).
+For Department: prefix is "dept" (creates dept_sales, dept_technical, etc.).
+Dummy variables are boolean type (True/False) by default.
+Original Department and salary columns remain in the dataframe after dummy creation.
+Dummy columns are concatenated to the right of the existing dataframe using pd.concat().
+
+
+Train-test split:
+
+
+
+Uses train_test_split() from scikit-learn with train_size=0.7 (70% training, 30% testing).
+The split is performed on the entire dataframe (X) including all dummy variables.
+Random state is not specified, so split may vary between runs (but dimensions remain consistent for same dataset size).
+The target variable y is defined as df.left.
+
+
+Feature separation:
+
+
+
+After splitting, the left column is dropped from X_train and X_test using .drop(columns='left', axis=1).
+y_train and y_test contain only the left column values extracted using df_train['left'] and df_test['left'].
+
+
+Output formatting:
+
+
+
+All DataFrame displays use .head() to show first 5 rows.
+Shape tuples are printed with standard Python tuple format.
+Spacing and blank lines must match the sample output exactly.
+The program suppresses warnings using warnings.simplefilter(action='ignore').
+No data is saved to file—all operations are performed in memory.
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+Creating dummy variables for salary:
+   satisfaction_level  last_evaluation  ...  salary_low  salary_medium
+0                0.38             0.53  ...        True          False
+1                0.80             0.86  ...       False           True
+2                0.11             0.88  ...       False           True
+3                0.72             0.87  ...        True          False
+4                0.37             0.52  ...        True          False
+
+[5 rows x 12 columns]
+
+Creating dummy variables for department:
+   satisfaction_level  last_evaluation  ...  dept_support  dept_technical
+0                0.38             0.53  ...         False           False
+1                0.80             0.86  ...         False           False
+2                0.11             0.88  ...         False           False
+3                0.72             0.87  ...         False           False
+4                0.37             0.52  ...         False           False
+
+[5 rows x 17 columns]
+
+Final dataframe with dummy variables:
+   satisfaction_level  last_evaluation  ...  dept_support  dept_technical
+0                0.38             0.53  ...         False           False
+1                0.80             0.86  ...         False           False
+2                0.11             0.88  ...         False           False
+3                0.72             0.87  ...         False           False
+4                0.37             0.52  ...         False           False
+
+[5 rows x 17 columns]
+
+Size of training dataset:  (36, 17)
+Size of test dataset:  (16, 17)
+
+Shapes of input/output features after train-test split:
+(36, 16) (36,) (16, 16) (16,)
