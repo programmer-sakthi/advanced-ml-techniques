@@ -1,0 +1,188 @@
+Problem Statement
+
+
+
+Text-based classification is a powerful application of machine learning where patterns in textual data are used to make predictions. The healthcare analytics team has access to patient health descriptions stored as text, and they need to predict diabetes diagnosis based on these textual health summaries.
+
+
+
+Unlike traditional Naïve Bayes classifiers that work with numeric features, Multinomial Naïve Bayes is specifically designed for text classification tasks. It treats text as a collection of word frequencies (bag-of-words model) and calculates probabilities based on how often certain words or phrases appear in each class.
+
+
+
+How Multinomial Naïve Bayes Works for Diabetes Prediction:
+
+
+
+When analyzing health text like "Age group: Senior | BMI status: Obese | Glucose category: Very High Glucose Level", the algorithm:
+Breaks the text into individual words (tokens).
+Counts the frequency of each word.
+Calculates the probability of diabetes given the presence of specific words.
+For example, words like "Very High", "Obese", and "Senior" may have higher association with diabetes (class 1), while words like "Young", "Normal", and "Low" may associate with non-diabetes (class 0).
+Combines these word-level probabilities to predict the overall class.
+
+
+Task:
+
+
+
+The team needs to build a text classification model that:
+
+
+
+1. Load the diabetes dataset:
+
+
+
+Import patient health data containing textual health descriptions and diabetes outcomes.
+
+
+2. Extract features and target:
+
+
+
+Feature (X): HealthText column containing textual health descriptions with age group, BMI status, and glucose category information.
+Target (y): Outcome column (0 = Not diabetic, 1 = Diabetic).
+
+
+3. Convert text to numeric vectors:
+
+
+
+Use CountVectorizer to transform text data into numerical feature vectors.
+CountVectorizer creates a bag-of-words representation where each unique word becomes a feature, and values represent word frequencies in each document.
+
+
+4. Split data for training and testing:
+
+
+
+Use 80-20 split (80% training, 20% testing) for training purposes only.
+Set random_state=42 for reproducibility.
+The split is not used to generate predictions for all test data — the final output will be for a specific new sample text.
+
+
+5. Train Multinomial Naïve Bayes classifier:
+
+
+
+Initialize and train a MultinomialNB model on the vectorized training data.
+The model learns word frequency patterns associated with diabetic vs. non-diabetic cases.
+
+
+6. Predict diabetes for new health description:
+
+
+
+Test the model on a new patient description: "Age group: Senior | BMI status: Overweight | Glucose category: Very High Glucose Level"
+Transform the new text using the same vectorizer (to maintain consistent feature representation).
+Make a prediction and display the result (0 or 1).
+
+
+This approach demonstrates how textual health summaries can be automatically classified to predict diabetes risk, enabling quick screening based on patient health descriptions.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age,FamilyHistory,HbA1c,Outcome,GlucoseCategory,HealthText
+
+148,72,35,0,33.6,0.627,50,0,11,1,High Glucose Level,Age group: Middle-aged | BMI status: Obese | Glucose category: High Glucose Level
+
+85,66,29,0,26.6,0.351,31,0,5,0,Low Glucose Risk,Age group: Middle-aged | BMI status: Overweight | Glucose category: Low Glucose Risk
+
+183,64,0,0,23.3,0.672,32,1,11,1,Very High Glucose Risk,Age group: Middle-aged | BMI status: Normal | Glucose category: Very High Glucose Risk
+
+
+
+HealthText Format:
+
+
+
+Contains three components separated by pipes (|):
+
+Age group: Young / Middle-aged / Senior
+BMI status: Normal / Overweight / Obese / nan
+Glucose category: Low Glucose Risk / Moderate Glucose Level / High Glucose Level / Very High Glucose Risk
+Input format :
+The program prompts the user to enter the name of the CSV file containing health data.
+Input must include the file extension .csv.
+Output format :
+The program generates a single prediction output:
+
+
+
+Prediction for new sample:
+
+Format: "Prediction: X"
+Where X is either:
+
+1 - Predicted as diabetic
+0 - Predicted as not diabetic
+
+
+The prediction is for the test sample text: "Age group: Senior | BMI status: Overweight | Glucose category: Very High Glucose Level"
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+File must be a valid comma-separated CSV file with .csv extension.
+File must exist in the same directory as the Python script.
+File must contain a header row with exact column names (case-sensitive).
+Required columns for this task:
+HealthText (string): Contains textual health descriptions - Essential for text classification
+Outcome (int): Binary diabetes diagnosis (0 or 1) - Target variable
+All other columns (Glucose, BloodPressure, BMI, etc.) may be present but are not used in this text classification task.
+Dataset must contain sufficient samples for meaningful train-test split.
+
+
+Column Data Constraints
+
+
+
+HealthText: Non-empty string values in the format: "Age group: <category> | BMI status: <category> | Glucose category: <category>"
+Age group values: Young, Middle-aged, Senior
+BMI status values: Normal, Overweight, Obese, or nan
+Glucose category values: Low Glucose Risk, Moderate Glucose Level, High Glucose Level, Very High Glucose Risk
+Outcome: Binary integer values (0 = Not diabetic, 1 = Diabetic).
+No missing values should be present in HealthText or Outcome columns.
+
+
+Program Constraints
+
+
+
+If the CSV file is not found, the program prints: "Error: File '{filename}' not found." and terminates.
+Warnings must be suppressed using both warnings.simplefilter("ignore") and warnings.filterwarnings('ignore').
+
+
+Text Vectorization Requirements
+
+
+
+CountVectorizer must be used to convert text to numerical features.
+CountVectorizer creates a vocabulary of all unique words across all HealthText entries.
+Each text document is represented as a vector of word counts.
+The same vectorizer instance must be used for both training data transformation (fit_transform) and test sample transformation (transform).
+Word frequencies are non-negative integers, making the data suitable for Multinomial Naïve Bayes.
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+Prediction: 1
