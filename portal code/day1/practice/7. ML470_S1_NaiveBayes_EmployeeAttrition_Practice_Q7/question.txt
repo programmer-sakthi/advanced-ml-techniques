@@ -1,0 +1,183 @@
+Problem Statement
+
+
+
+After preparing the employee dataset through encoding categorical variables and splitting into training and testing sets, the next crucial step is to build a machine learning model that can predict employee attrition. The HR analytics team needs a classification model that can learn patterns from historical employee data and predict whether new employees are likely to leave the company.
+
+
+
+For this task, the team will use the Naïve Bayes Classifier, specifically the Gaussian Naïve Bayes variant, which is well-suited for classification problems with continuous numeric features. This probabilistic classifier assumes that features are independent and follow a Gaussian (normal) distribution.
+
+
+
+The team needs to accomplish two key modeling tasks:
+
+
+
+1.Train a Naïve Bayes Classifier – Build and train a Gaussian Naïve Bayes model using the training dataset:
+
+
+
+First, prepare the data by converting categorical variables (Department and salary) into numeric dummy variables.
+Remove the original categorical columns to ensure all features are numeric.
+Split the data into training (70%) and testing (30%) sets.
+Initialize a GaussianNB classifier and train it on the training features (X_train) and target labels (y_train).
+Display the trained model object showing its parameters.
+
+
+2. Predict outcomes for test data – Use the trained model to make predictions:
+
+
+
+Apply the trained classifier to the test features (X_test).
+Generate predictions indicating whether each employee in the test set is likely to leave (1) or stay (0).
+Display the complete array of predictions for all test samples.
+
+
+This process creates a predictive model that can be used to identify employees at risk of leaving, enabling proactive retention strategies.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+satisfaction_level,last_evaluation,number_project,average_montly_hours,time_spend_company,Work_accident,left,promotion_last_5years,Department,salary
+
+0.38,0.53,2,157,3,0,1,0,sales,low
+
+0.8,0.86,5,262,6,0,1,0,sales,medium
+
+0.11,0.88,7,272,4,0,1,0,sales,medium
+
+0.72,0.87,5,223,5,0,1,0,sales,low
+
+0.37,0.52,2,159,3,0,1,0,sales,low
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing employee data.
+Input must include the file extension .csv.
+Output format :
+The program generates two outputs in sequence:
+
+
+
+1. Trained Naïve Bayes model object:
+
+
+
+Displays the GaussianNB classifier object with its default parameters.
+Standard format: GaussianNB(priors=None, var_smoothing=1e-09)
+This shows the trained model is ready with default hyperparameters:
+priors=None: Class prior probabilities are learned from training data.
+var_smoothing=1e-09: Smoothing parameter to prevent zero variance issues.
+Followed by a blank line.
+
+
+2. Predictions for test data:
+
+
+
+Displays a NumPy array containing predictions for all test samples.
+Format: [prediction1 prediction2 prediction3 ...]
+Each prediction is either:
+1: Employee is predicted to leave
+0: Employee is predicted to stay
+Array length equals the number of samples in the test set (approximately 30% of total dataset).
+Predictions are integer values (0 or 1).
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+File must be a valid comma-separated CSV file with .csv extension.
+File must exist in the same directory as the Python script.
+File must contain a header row with exact column names (case-sensitive).
+All expected columns must be present: satisfaction_level, last_evaluation, number_project, average_montly_hours, time_spend_company, Work_accident, left, promotion_last_5years, Department, salary
+The Department and salary columns must contain valid string values for encoding.
+The left column must contain binary values (0 or 1) as the target variable.
+
+
+Column Data Constraints
+
+
+
+satisfaction_level, last_evaluation: Float values (typically 0.0 to 1.0).
+number_project, average_montly_hours, time_spend_company: Integer values representing counts or hours.
+Work_accident, left, promotion_last_5years: Binary integer values (0 or 1).
+Department: Non-empty string values. Common values: sales, technical, support, IT, hr, accounting, management, marketing, RandD, product_mng.
+salary: Non-empty string values. Must be one of: low, medium, high.
+No missing values should be present in any column for proper model training.
+
+
+Program Constraints
+
+
+
+The program uses pandas for data manipulation, scikit-learn for modeling and splitting.
+If the CSV file is not found, the program prints: "Error: File '{filename}' not found." and exits.
+
+
+Data Preprocessing Requirements
+
+
+
+The dataset contains categorical columns (Department and salary) which must be converted into numerical form before model training.
+After encoding, only numeric feature columns should remain.
+The target variable is the left column.
+
+
+Train–Test Split Requirements
+
+
+
+The data must be divided into training and testing sets.
+Training set size should be 70%, testing set size 30%.
+
+
+Model Training Requirements
+
+
+
+A Gaussian Naïve Bayes classifier must be created and trained using the training data.
+Default model parameters should be used.
+The trained model object must be printed exactly as generated by scikit-learn.
+
+
+Prediction Requirements
+
+
+
+Predictions must be generated for all test samples using the trained model.
+Output should be a NumPy array of 0s and 1s (stay/leave).
+The array must be printed in its raw format.
+
+
+Output Formatting:
+
+
+
+Model object is printed directly (shows class name and parameters).
+Predictions are printed as a NumPy array without additional formatting.
+One blank line separates the two outputs.
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+GaussianNB(priors=None, var_smoothing=1e-09)
+
+[1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]
