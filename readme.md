@@ -8,4 +8,33 @@ This git repo consists of the following related to the course "Advanced ML techn
 - assignments ( will be uploaded wehn assigned )
 - lab experiments ( will be uploaded when assigned )
 
-<!-- TODO : Implement a status completion -->
+## Completion Status
+
+### Completed ( all )
+
+- Day 1
+
+### Partially Completed ( with pending due to error in portal or someother reason )
+
+None
+
+### Ongoing
+
+- Day 2
+
+### Problamitic Questions
+
+None
+
+### Yet to Start
+
+- Day 3
+- Day 3
+- Day 3
+- Day 4
+- Day 5
+- Day 6
+- Day 7
+- Day 8
+- Day 9
+- Day 10
