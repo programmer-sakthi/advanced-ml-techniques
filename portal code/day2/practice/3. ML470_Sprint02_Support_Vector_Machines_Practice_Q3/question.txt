@@ -1,0 +1,257 @@
+Problem Statement
+
+
+
+Building upon the data preprocessing completed, the company's data science team now needs to prepare the employee dataset for machine learning model training. This critical phase involves feature engineering, multicollinearity detection, data transformation, and dataset partitioning to ensure optimal model performance.
+
+
+
+The objective is to transform the preprocessed employee data into a format suitable for building a classification model that predicts employee attrition. The team needs to:
+
+
+
+Detect multicollinearity – Identify highly correlated features in the dataset that could negatively impact model performance. Multicollinearity occurs when two or more features are highly correlated (correlation coefficient ≥ 0.75), which can lead to unstable model coefficients and reduced interpretability.
+
+
+Feature selection – Based on correlation analysis, determine which features should be retained for modeling. The left column (indicating whether an employee left the company) will serve as the target label, while all other numeric features will be used as input features.
+
+
+Separate features and labels – Divide the dataset into input features (X) and the target variable (y) to prepare for supervised learning.
+
+
+Perform data scaling – Standardize all numerical features using StandardScaler to ensure that features with different scales contribute equally to the model. This transformation converts features to have a mean of 0 and standard deviation of 1.
+
+
+Split the dataset – Partition the scaled data into training (80%) and testing (20%) sets to enable model training and unbiased evaluation.
+
+
+This task requires implementing a custom function in a separate module (ML_Modules.py) for correlation analysis and data scaling, which will be imported and utilized in the main script. The output will provide insights into feature relationships and produce properly formatted training and testing datasets ready for model development.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+satisfaction_level,last_evaluation,number_project,average_montly_hours,time_spend_company,Work_accident,left,promotion_last_5years,Department,salary
+
+0.38,0.53,2,157,3,0,1,0,sales,low
+
+0.8,0.86,5,262,6,0,1,0,sales,medium
+
+0.11,0.88,7,272,4,0,1,0,sales,medium
+
+0.72,0.87,5,223,5,0,1,0,sales,low
+
+0.37,0.52,2,159,3,0,1,0,sales,low
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing employee data.
+Input must include the file extension .csv.
+Output format :
+The program produces the following outputs in sequence:
+
+
+
+1. Label Encoding Confirmation:
+
+
+
+Prints the heading: === Label Encoding Categorical Columns ===
+Shows encoded salary classes: Encoded salary classes: ['class1', 'class2', ...] (alphabetically sorted)
+Shows encoded Department classes: Encoded Department classes: ['dept1', 'dept2', ...] (alphabetically sorted)
+
+
+2. Features and Label Separation:
+
+
+
+Prints a blank line followed by: === Separating Features and Label ===
+Prints: Input Features Shape: (rows, columns) where rows is the total number of samples and columns is the number of feature columns (excluding the left column)
+Prints: Label Shape: (rows,) where rows is the total number of samples
+
+
+3. Correlation Boolean Matrix:
+
+
+
+Prints a blank line followed by: === Correlation Boolean Matrix (correlation >= 0.75) ===
+Displays a boolean matrix showing True where absolute correlation between features is ≥ 0.75, False otherwise
+Matrix is square with dimensions matching the number of features
+Diagonal elements are always True (feature correlated with itself)
+Includes dimension summary: [N rows x N columns] where N is the number of features
+
+
+4. Scaled Feature Sample:
+
+
+
+Prints a blank line followed by: === Scaled Feature Sample (First 5 Rows) ===
+Displays the first 5 rows of standardized features after scaling
+Values are transformed to have mean ≈ 0 and standard deviation ≈ 1
+Shows floating-point values (can be positive or negative)
+Includes dimension summary: [5 rows x N columns] where N is the number of features
+
+
+5. Train-Test Split Information:
+
+
+
+Prints a blank line followed by: === Splitting Data into Train (80%) and Test (20%) ===
+Prints: Training Features Shape: (train_rows, columns)
+Prints: Training Labels Shape: (train_rows,)
+Prints: Testing Features Shape: (test_rows, columns)
+Prints: Testing Labels Shape: (test_rows,)
+Where train_rows = 80% of total samples and test_rows = 20% of total samples
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+Must be a comma-separated CSV file with .csv extension.
+Must exist in the same directory as main.py and ML_Modules.py.
+Must contain exactly 10 columns with these exact names (case-sensitive): satisfaction_level, last_evaluation, number_project, average_montly_hours, time_spend_company, Work_accident, left, promotion_last_5years, Department, salary.
+The left column is mandatory as the target label.
+Must contain at least 5 rows of data (excluding header).
+
+
+Column Data Type Constraints
+
+
+
+Numeric columns: satisfaction_level, last_evaluation, number_project, average_montly_hours, time_spend_company, Work_accident, left, promotion_last_5years must contain valid numeric values.
+Categorical columns: Department and salary must contain text values.
+No missing values should be present.
+
+
+ML_Modules.py Function Constraints
+
+
+
+check_correlation(input_df)
+
+
+
+Detects multicollinearity among features.
+Accepts a DataFrame of numeric features (excluding the label).
+Returns a boolean correlation matrix showing True for absolute correlation ≥ 0.75.
+
+
+data_scale(input_df)
+
+
+
+Standardizes numeric feature columns.
+Returns a DataFrame of scaled features with original column names preserved.
+
+
+Label Encoding Constraints
+
+
+
+Encode salary and Department using LabelEncoder.
+Create new encoded columns: salary.enc and Department.enc.
+Drop original categorical columns after encoding.
+
+
+Feature and Label Separation
+
+
+
+Target label: left column.
+Features: all other columns after encoding.
+Total feature count: 9 columns (8 numeric + 2 encoded categorical).
+
+
+Data Scaling
+
+
+
+Applied to all features after correlation analysis.
+Scaled features must have mean ≈ 0 and standard deviation ≈ 1.
+
+
+Train-Test Split
+
+
+
+80% training, 20% testing.
+Random state = 42 for reproducibility.
+Split is applied after scaling.
+
+
+Program Processing
+
+
+
+Suppress warnings.
+Print clear error messages if CSV file not found or left column missing.
+Label encoding must occur before feature-label separation.
+Correlation checking must occur after feature-label separation (exclude label).
+Data scaling must occur after correlation checking.
+Train-test split occurs after scaling.
+Output formatting should match pandas and sklearn defaults.
+
+
+Module Import Requirements
+
+
+
+main.py requires: pandas, os, sys, train_test_split, LabelEncoder, warnings, ML_Modules.
+ML_Modules.py requires: pandas, StandardScaler.
+Import the custom module as: import ML_Modules as mm.
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+=== Label Encoding Categorical Columns ===
+Encoded salary classes: ['low', 'medium']
+Encoded Department classes: ['accounting', 'hr', 'sales', 'support', 'technical']
+
+=== Separating Features and Label ===
+Input Features Shape: (50, 9)
+Label Shape: (50,)
+
+=== Correlation Boolean Matrix (correlation >= 0.75) ===
+                       satisfaction_level  ...  Department.enc
+satisfaction_level                   True  ...           False
+last_evaluation                     False  ...           False
+number_project                      False  ...           False
+average_montly_hours                False  ...           False
+time_spend_company                  False  ...           False
+Work_accident                       False  ...           False
+promotion_last_5years               False  ...           False
+salary.enc                          False  ...           False
+Department.enc                      False  ...            True
+
+[9 rows x 9 columns]
+
+=== Scaled Feature Sample (First 5 Rows) ===
+   satisfaction_level  last_evaluation  ...  salary.enc  Department.enc
+0           -0.296912        -0.814553  ...   -0.252646       -0.307268
+1            1.397421         1.021530  ...    3.958114       -0.307268
+2           -1.386126         1.132807  ...    3.958114       -0.307268
+3            1.074691         1.077169  ...   -0.252646       -0.307268
+4           -0.337253        -0.870192  ...   -0.252646       -0.307268
+
+[5 rows x 9 columns]
+
+=== Splitting Data into Train (80%) and Test (20%) ===
+Training Features Shape: (40, 9)
+Training Labels Shape: (40,)
+Testing Features Shape: (10, 9)
+Testing Labels Shape: (10,)

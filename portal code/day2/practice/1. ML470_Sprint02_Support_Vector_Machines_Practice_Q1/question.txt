@@ -1,0 +1,278 @@
+Problem Statement
+
+
+
+A company wants to retain their talented employees and needs to identify which employees are more likely to leave the organization. By predicting employee attrition in advance, the HR department can take proactive measures and offer personalized incentives to encourage valuable employees to stay. As part of this initiative, the company's data science team needs to analyze historical employee data and prepare it for building predictive models.
+
+
+
+The first critical step in this process is Data Preprocessing, which involves cleaning, transforming, and preparing the raw employee dataset for machine learning algorithms. The data scientist needs to:
+
+
+
+Import and explore the dataset – Load the employee data and examine its structure, dimensions, data types, and statistical properties to understand the dataset comprehensively.
+
+
+Handle missing values – Check for any missing or null values in the dataset that could affect model performance, and assess data quality to ensure consistency.
+
+
+Encode categorical variables – Convert text-based categorical columns (salary and Department) into numerical format using Label Encoding, as machine learning algorithms require numerical input.
+
+
+This preprocessing phase ensures that the data is clean, complete, and in the correct format for subsequent analysis and model building. The output of this task will provide insights into data quality and produce a transformed dataset ready for predictive modeling.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+satisfaction_level,last_evaluation,number_project,average_montly_hours,time_spend_company,Work_accident,left,promotion_last_5years,Department,salary
+
+0.38,0.53,2,157,3,0,1,0,sales,low
+
+0.8,0.86,5,262,6,0,1,0,sales,medium
+
+0.11,0.88,7,272,4,0,1,0,sales,medium
+
+0.72,0.87,5,223,5,0,1,0,sales,low
+
+0.37,0.52,2,159,3,0,1,0,sales,low
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing employee data.
+Input must include the file extension .csv.
+Output format :
+The program generates the following outputs in sequence:
+
+
+
+1. First 5 Rows of Data:
+
+
+
+Prints the heading: === First 5 Rows of Data ===
+Displays the first 5 rows of the DataFrame.
+Shows in tabular format with column names and row indices
+Includes a summary line showing dimensions: [5 rows x N columns] where N is the number of columns
+
+
+2. Number of Samples:
+
+
+
+Prints a blank line
+Prints: "The number of samples in data is X." where X is the total number of rows in the dataset
+
+
+3. Data Types:
+
+
+
+Prints a blank line followed by: === Data Types ===
+Lists all column names with their corresponding data types (e.g., float64, int64, object)
+Ends with dtype: object
+
+
+4. Statistical Summary:
+
+
+
+Prints a blank line followed by: === Statistical Summary (Describe) ===
+Displays statistical summary.
+Shows count, mean, std, min, 25%, 50%, 75%, max for all numeric columns
+Includes dimension summary: [8 rows x N columns] where N is the number of numeric columns
+
+
+5. Missing Values Check:
+
+
+
+Prints a blank line followed by: === Missing Values Per Column ===
+Lists each column name with the count of missing/null values
+Ends with dtype: int64
+
+
+6. Salary Encoding Classes:
+
+
+
+Prints a blank line followed by: === Salary Encoding Classes ===
+Shows the unique classes found in the salary column as a Python list (alphabetically sorted)
+
+
+7. Department Encoding Classes:
+
+
+
+Prints a blank line followed by: === Department Encoding Classes ===
+Shows the unique classes found in the Department column as a Python list (alphabetically sorted)
+
+
+8. Dropping Columns Confirmation:
+
+
+
+Prints a blank line followed by: === Dropping 'Department' and 'salary' columns ===
+
+
+9. Updated DataFrame Info:
+
+
+
+Prints a blank line followed by: === Updated DataFrame Info ===
+Displays DataFrame information using .info() method showing:
+DataFrame class type
+Index range
+Total number of columns with non-null counts and data types
+Data types breakdown (e.g., float64(2), int64(8))
+Memory usage information
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+File must be a comma-separated CSV file with .csv extension
+File must exist in the same directory as the Python script
+File must contain exactly 10 columns with the following exact column names (case-sensitive): satisfaction_level, last_evaluation, number_project, average_montly_hours, time_spend_company, Work_accident, left, promotion_last_5years, Department, salary
+Column order must match the specified structure
+File must contain at least 1 row of data (excluding header)
+
+
+Column Data Type Constraints
+
+
+
+satisfaction_level: Must be float values (typically between 0.0 and 1.0)
+last_evaluation: Must be float values (typically between 0.0 and 1.0)
+number_project: Must be integer values (non-negative)
+average_montly_hours: Must be integer values (non-negative)
+time_spend_company: Must be integer values (non-negative, representing years)
+Work_accident: Must be integer values (0 or 1)
+left: Must be integer values (0 or 1)
+promotion_last_5years: Must be integer values (0 or 1)
+Department: Must be text/string values representing department names
+salary: Must be text/string values representing salary categories
+
+
+Label Encoding Constraints
+
+
+
+Salary Column Encoding:
+
+The salary column contains categorical text values (e.g., low, medium, high)
+Label encoding creates a new column salary.enc with integer values
+Encoding is alphabetically sorted: classes are ordered alphabetically before encoding
+Each unique salary level is mapped to a unique integer starting from 0
+
+Department Column Encoding:
+
+The Department column contains categorical text values (department names)
+Label encoding creates a new column Department.enc with integer values
+Encoding is alphabetically sorted: classes are ordered alphabetically before encoding
+Each unique department is mapped to a unique integer starting from 0
+
+
+Program Processing Constraints
+
+
+
+If the CSV file is not found, the program prints: Error: File '{filename}' not found. and exits
+After encoding, the original text columns (Department and salary) are dropped from the DataFrame
+The final DataFrame contains 10 columns: 8 original numeric columns + 2 new encoded columns (salary.enc and Department.enc)
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+=== First 5 Rows of Data ===
+   satisfaction_level  last_evaluation  ...  Department  salary
+0                0.38             0.53  ...       sales     low
+1                0.80             0.86  ...       sales  medium
+2                0.11             0.88  ...       sales  medium
+3                0.72             0.87  ...       sales     low
+4                0.37             0.52  ...       sales     low
+
+[5 rows x 10 columns]
+
+The number of samples in data is 50.
+
+=== Data Types ===
+satisfaction_level       float64
+last_evaluation          float64
+number_project             int64
+average_montly_hours       int64
+time_spend_company         int64
+Work_accident              int64
+left                       int64
+promotion_last_5years      int64
+Department                object
+salary                    object
+dtype: object
+
+=== Statistical Summary (Describe) ===
+       satisfaction_level  last_evaluation  ...  left  promotion_last_5years
+count           50.000000        50.000000  ...  50.0              50.000000
+mean             0.453600         0.676400  ...   1.0               0.020000
+std              0.250402         0.181555  ...   0.0               0.141421
+min              0.090000         0.460000  ...   1.0               0.000000
+25%              0.380000         0.530000  ...   1.0               0.000000
+50%              0.410000         0.570000  ...   1.0               0.000000
+75%              0.542500         0.870000  ...   1.0               0.000000
+max              0.920000         1.000000  ...   1.0               1.000000
+
+[8 rows x 8 columns]
+
+=== Missing Values Per Column ===
+satisfaction_level       0
+last_evaluation          0
+number_project           0
+average_montly_hours     0
+time_spend_company       0
+Work_accident            0
+left                     0
+promotion_last_5years    0
+Department               0
+salary                   0
+dtype: int64
+
+=== Salary Encoding Classes ===
+['low', 'medium']
+
+=== Department Encoding Classes ===
+['accounting', 'hr', 'sales', 'support', 'technical']
+
+=== Dropping 'Department' and 'salary' columns ===
+
+=== Updated DataFrame Info ===
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 50 entries, 0 to 49
+Data columns (total 10 columns):
+ #   Column                 Non-Null Count  Dtype  
+---  ------                 --------------  -----  
+ 0   satisfaction_level     50 non-null     float64
+ 1   last_evaluation        50 non-null     float64
+ 2   number_project         50 non-null     int64  
+ 3   average_montly_hours   50 non-null     int64  
+ 4   time_spend_company     50 non-null     int64  
+ 5   Work_accident          50 non-null     int64  
+ 6   left                   50 non-null     int64  
+ 7   promotion_last_5years  50 non-null     int64  
+ 8   salary.enc             50 non-null     int64  
+ 9   Department.enc         50 non-null     int64  
+dtypes: float64(2), int64(8)
+memory usage: 4.0 KB
