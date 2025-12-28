@@ -1,0 +1,196 @@
+Problem Statement
+
+
+
+After preparing and preprocessing the employee dataset, the company's data science team is now ready to build a classification model to predict employee attrition. The goal is to develop a robust model that can accurately identify employees who are likely to leave the company, enabling HR to take proactive retention measures.
+
+
+
+For this classification task, the team has chosen Support Vector Machine (SVM) as the machine learning algorithm. SVM is particularly well-suited for this problem because it:
+
+
+
+Can handle both linearly and non-linearly separable data patterns
+Maximizes the margin between classes for better generalization
+Performs well with high-dimensional feature spaces
+Is robust against overfitting, especially with proper kernel selection
+
+
+The task involves:
+
+
+
+Data Preparation – The main script must handle all preprocessing steps including loading the CSV file, encoding categorical variables (salary and Department), dropping original text columns, separating features from the target label, and preparing data for model training.
+
+
+Feature Scaling – Standardize all numerical features using the custom scaling function to ensure features contribute equally to the model.
+
+
+Data Splitting – Partition the dataset into training (80%) and testing (20%) sets using a custom sequential split function.
+
+
+Model Training – Build an SVM classifier using the Radial Basis Function (RBF) kernel, which can capture non-linear relationships in the data. The model will be trained on 80% of the dataset to learn patterns that distinguish employees who leave from those who stay.
+
+
+Prediction – Apply the trained SVM model to the remaining 20% test data to predict whether employees in the test set will leave the company.
+
+
+Model Evaluation – Assess the classifier's performance using comprehensive evaluation metrics including confusion matrix, classification report, accuracy, precision, recall, and F1-score. These metrics will help the HR team understand the model's strengths and weaknesses in predicting employee attrition.
+
+
+This task requires implementing custom functions in ML_Modules.py for data scaling, train-test splitting, and model evaluation, which will be utilized by the main script to build and assess the SVM classifier. The output will provide detailed performance metrics that indicate how well the model can predict employee retention.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+satisfaction_level,last_evaluation,number_project,average_montly_hours,time_spend_company,Work_accident,left,promotion_last_5years,Department,salary
+
+0.38,0.53,2,157,3,0,1,0,sales,low
+
+0.8,0.86,5,262,6,0,1,0,sales,medium
+
+0.11,0.88,7,272,4,0,1,0,sales,medium
+
+0.72,0.87,5,223,5,0,1,0,sales,low
+
+0.37,0.52,2,159,3,0,1,0,sales,low
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing employee data.
+Input must include the file extension .csv.
+Output format :
+The program produces the following evaluation outputs:
+
+
+
+1. Confusion Matrix:
+
+
+
+Prints the heading: Confusion Matrix
+Displays a 2×2 matrix showing the classification results:
+[[TN FP]
+
+[FN TP]]
+
+Where:
+TN (True Negative) = Correctly predicted as "Not Left" (class 0)
+FP (False Positive) = Incorrectly predicted as "Left" (class 1) when actually "Not Left"
+FN (False Negative) = Incorrectly predicted as "Not Left" when actually "Left"
+TP (True Positive) = Correctly predicted as "Left" (class 1)
+Followed by: ===================\n (separator line with newline)
+
+
+2. Classification Report:
+
+
+
+Prints a blank line followed by: Classification Report:
+Displays a detailed classification report with 3 decimal places showing:
+Per-class metrics (for class 0 and class 1):
+precision – Ratio of correct positive predictions to total positive predictions
+recall – Ratio of correct positive predictions to total actual positives
+f1-score – Harmonic mean of precision and recall
+support – Number of actual occurrences of each class in the test set
+
+
+Overall metrics:
+accuracy – Overall correctness of predictions
+macro avg – Unweighted average of per-class metrics
+weighted avg – Weighted average of per-class metrics (weighted by support)
+Format includes proper column alignment with decimal values rounded to 3 places
+Followed by: ===================\n (separator line with newline)
+
+
+3. Individual Metrics:
+
+
+
+Prints a blank line followed by four individual metrics, each on a separate line:
+accuracy: X.XXX – Overall accuracy score (3 decimal places)
+recall: X.XXX – Recall score for class 1 (3 decimal places)
+f1-score: X.XXX – F1-score for class 1 (3 decimal places)
+precision: X.XXX – Precision score for class 1 (3 decimal places)
+All metrics are rounded to exactly 3 decimal places
+Format: metric_name: value (lowercase metric name, colon, space, value)
+
+
+Note: The output contains NO intermediate printing during data loading, encoding, scaling, or splitting. Only the final evaluation metrics are displayed.
+
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+Must be a comma-separated CSV file with .csv extension.
+Must contain exactly 10 columns with names: satisfaction_level, last_evaluation, number_project, average_montly_hours, time_spend_company, Work_accident, left, promotion_last_5years, Department, salary.
+left column is mandatory and binary (0 = stayed, 1 = left). Only 0 and 1 are allowed.
+All numeric columns must contain valid numeric values.
+Department and salary columns must contain categorical text values.
+No missing values allowed.
+
+
+Processing Constraints
+
+
+
+Encode salary and Department using LabelEncoder. Drop original text columns after encoding.
+Feature set after encoding: satisfaction_level, last_evaluation, number_project, average_montly_hours, time_spend_company, Work_accident, promotion_last_5years, salary.enc, Department.enc (9 columns)
+Scale all features using a custom scaling function.
+Split data into train (80%) and test (20%) using sequential slicing (first 80% → train, last 20% → test), not random sampling.
+Train SVM with RBF kernel, C=1, gamma='scale', random_state=42.
+Evaluate using confusion matrix, classification report (3 decimals), and individual metrics (accuracy, recall, f1-score, precision) rounded and formatted to 3 decimals.
+Only final evaluation metrics must be printed; no intermediate prints.
+Suppress warnings using warnings.simplefilter(action='ignore').
+Handle errors: missing CSV file or missing left column with proper messages.
+
+
+Binary Classification Assumptions
+
+
+
+Class 0: Employee stayed
+Class 1: Employee left
+All sklearn metrics use positive label = 1
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+Confusion Matrix
+[[1 4]
+ [2 3]]
+===================
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0      0.333     0.200     0.250         5
+           1      0.429     0.600     0.500         5
+
+    accuracy                          0.400        10
+   macro avg      0.381     0.400     0.375        10
+weighted avg      0.381     0.400     0.375        10
+
+===================
+
+accuracy: 0.400
+recall: 0.600
+f1-score: 0.500
+precision: 0.429
