@@ -16,21 +16,20 @@ This git repo consists of the following related to the course "Advanced ML techn
 
 ### Partially Completed ( with pending due to error in portal or someother reason )
 
-None
+- Day 2
 
 ### Ongoing
 
-- Day 2
+None
 
 ### Problamitic Questions
 
-None
+#### Day 2
+
+concept 1 - sample testcases are passing, hidden is not passing. The logic is implemented correctly but the portal is not accepting it.
 
 ### Yet to Start
 
-- Day 3
-- Day 3
-- Day 3
 - Day 4
 - Day 5
 - Day 6
