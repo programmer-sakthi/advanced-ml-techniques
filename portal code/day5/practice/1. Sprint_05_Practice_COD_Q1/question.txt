@@ -1,0 +1,295 @@
+Problem Statement 
+
+
+
+An e-commerce company is facing challenges in optimizing its marketing spend and customer engagement strategies. The marketing team wants to predict which customers are most likely to make a purchase based on their behavioral patterns, demographics, and shopping history. By accurately identifying high-probability purchasers, the company can target promotional campaigns more effectively, optimize inventory management, and improve overall conversion rates. 
+
+
+
+The data science team has been provided with a comprehensive customer dataset containing various features such as purchase frequency, total purchase value, promotional engagement, discount sensitivity, shopping cart behavior, preferred product categories, session duration, returns history, loyalty program membership, income level, customer reviews, sentiment analysis, product pricing preferences, cart abandonment patterns, purchase recency, and brand preferences. 
+
+
+
+To build an effective predictive model, the team needs to: 
+
+
+
+Objectives 
+
+
+
+1. Data Preprocessing and Quality Assessment 
+
+Load and validate the customer dataset – Import the CSV file containing customer behavioral and demographic data 
+Handle categorical variables – Apply Label Encoding to convert categorical features (such as product categories, customer sentiment, income brackets, and brand preferences) into numerical format for machine learning algorithms 
+Assess data quality – Identify and quantify outliers in numeric features that may skew model performance 
+
+
+2. Outlier Detection and Treatment 
+
+Detect outliers using IQR method – For each numeric column, calculate the Interquartile Range (IQR) and identify values that fall outside the range [Q1 - 1.5×IQR, Q3 + 1.5×IQR] 
+Report outlier counts – Display the number of outliers detected in each numeric feature to understand data quality issues 
+Apply outlier treatment – Cap outliers at the lower and upper bounds rather than removing them, preserving dataset size while reducing the impact of extreme values 
+
+
+3. Feature Scaling and Standardization 
+
+Standardize numeric features – Apply StandardScaler to transform all features to have mean = 0 and standard deviation = 1 
+Ensure consistent scale – Prevent features with larger numeric ranges from dominating the model training process 
+
+
+4. Data Splitting and Model Training 
+
+Separate features and target – Extract the target variable "Purchase Likelihood" (binary: 0 = unlikely to purchase, 1 = likely to purchase) and prepare feature matrix 
+Split data into training and testing sets – Use an 80-20 split (80% training, 20% testing) to evaluate model generalization 
+Train Decision Tree Classifier – Build a Decision Tree model with controlled complexity (max_depth=4) to predict purchase likelihood 
+Evaluate model performance – Calculate and report model accuracy on the test set 
+ 
+
+
+
+ CSV File Structure :
+
+
+
+﻿
+
+
+
+Sample data :
+
+
+
+Purchase Frequency,Total Purchase Value,Promotional Content Clicked,Discount Sensitivity,Average Cart Size,Preferred Product Category,Session Duration,Returns Frequency,Loyalty Program Member,Monthly Income,Customer Review Count,Customer Sentiment,Average Product Price,Cart Abandonment Rate,Last Purchase Recency,Preferred Brands,Purchase Likelihood
+
+13,5170.636285,No,0.21,5,Electronics,10.14331109,0,No,>=50k,34,Neutral,1052.700629,0.73,174,Brand A,1
+
+19,3383.468557,Yes,0.74,3,Clothing,7.688788205,4,No,<50k,32,Positive,521.0316383,0.88,105,Brand B,1
+
+4,3339.111187,No,0.7,4,Electronics,11.10764543,1,Yes,<50k,16,Positive,1475.207589,0.05,155,Brand B,1
+
+11,6045.028211,No,0.25,6,Electronics,15.8641475,1,Yes,<50k,21,Positive,527.4288723,0.19,34,Mixed,1
+
+15,5836.796442,Yes,0.9,5,Home Decor,13.75041807,1,No,<50k,0,Neutral,1251.474116,0.39,143,Mixed,1
+
+15,7803.197186,Yes,0.1,9,Clothing,21.8092905,0,No,<50k,36,Positive,1964.19964,0.36,139,Brand C,0
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing the data.
+Input must include the file extension .csv.
+Output format :
+Program Output Sequence 
+
+
+
+The program executes the following sequence: 
+
+
+
+1. File Input and Loading 
+
+Accept CSV filename as input 
+Load customer data using pandas 
+Handle file reading errors gracefully 
+
+
+2. Categorical Variable Encoding 
+
+Identify all object-type (categorical) columns 
+Apply Label Encoding to each categorical column 
+Transform categorical values into numeric representations 
+
+
+3. Outlier Analysis Output 
+
+Display section header: --- Outlier Assessment --- 
+For each numeric column, print: column_name: N outliers 
+Where N is the count of values outside the IQR-based bounds
+ 
+
+4. Outlier Treatment 
+
+Cap outlier values at calculated lower and upper bounds 
+Preserve all data points while reducing extreme value impact 
+
+
+5. Feature-Target Separation 
+
+Extract "Purchase Likelihood" as the target variable 
+Create feature matrix X containing all other columns 
+Validate that target column exists in dataset 
+
+
+6. Feature Scaling 
+
+Apply StandardScaler transformation to all features 
+Convert scaled data back to DataFrame format 
+
+
+7. Train-Test Split 
+
+Split data with 80% training, 20% testing ratio 
+Maintain sequential order (no random shuffling) 
+
+
+
+
+8. Model Training and Evaluation 
+
+Train Decision Tree Classifier (max_depth=4, random_state=42) 
+Generate predictions on test set 
+Calculate accuracy score 
+
+
+9. Final Output 
+
+Display section divider: ============================== 
+Print: Model Accuracy: XX.XX % (rounded to 2 decimal places) 
+Display section divider: ============================== 
+Code constraints :
+CSV File Constraints 
+
+
+
+File must be a valid comma-separated CSV file with .csv extension 
+File must exist in the same directory as the Python script 
+File must contain a header row with exact column names (case-sensitive) 
+Required columns include:  
+Numeric Features: Purchase Frequency, Total Purchase Value, Discount Sensitivity, Average Cart Size, Session Duration, Returns Frequency, Monthly Income, Customer Review Count, Average Product Price, Cart Abandonment Rate, Last Purchase Recency 
+Categorical Features: Promotional Content Clicked, Preferred Product Category, Loyalty Program Member, Customer Sentiment, Preferred Brands 
+Target Variable: Purchase Likelihood (binary: 0 or 1) 
+
+
+Column Data Constraints 
+
+
+
+Numeric Features: 
+
+
+
+Purchase Frequency: Non-negative integers representing number of purchases 
+Total Purchase Value: Float values representing cumulative spending 
+Discount Sensitivity: Float values between 0.0 and 1.0 representing price sensitivity 
+Average Cart Size: Positive integers representing items per transaction 
+Session Duration: Float values representing average time spent (in minutes) 
+Returns Frequency: Non-negative integers representing number of returns 
+Monthly Income: Categorical values encoded as numeric after Label Encoding 
+Customer Review Count: Non-negative integers representing reviews written 
+Average Product Price: Float values representing typical product prices 
+Cart Abandonment Rate: Float values between 0.0 and 1.0 
+Last Purchase Recency: Non-negative integers representing days since last purchase 
+
+
+Categorical Features: 
+
+
+
+Promotional Content Clicked: Binary categorical (Yes/No) 
+Preferred Product Category: Categories such as Electronics, Clothing, Home Decor, Groceries 
+Loyalty Program Member: Binary categorical (Yes/No) 
+Customer Sentiment: Categories such as Positive, Neutral, Negative 
+Preferred Brands: Categories such as Brand A, Brand B, Brand C, Mixed 
+
+
+Target Variable: 
+
+
+
+Purchase Likelihood: Binary values (0 = Unlikely to purchase, 1 = Likely to purchase) 
+
+
+Program Constraints 
+
+
+
+Library Requirements: 
+
+
+
+pandas for data manipulation 
+numpy for numerical operations 
+scikit-learn for preprocessing, modeling, and evaluation 
+warnings module to suppress warning messages 
+
+
+Preprocessing Pipeline: 
+
+
+
+Label Encoding:  
+Applied to all object-type columns 
+Converts categorical values to integers (0, 1, 2, ...) 
+Each unique category receives a unique integer label 
+Outlier Detection (IQR Method):  
+Q1 = 25th percentile, Q3 = 75th percentile 
+IQR = Q3 - Q1 
+Lower bound = Q1 - 1.5 × IQR 
+Upper bound = Q3 + 1.5 × IQR 
+Count values outside these bounds as outliers 
+Outlier Treatment:  
+Cap values below lower bound at lower bound 
+Cap values above upper bound at upper bound 
+Use numpy.where() for conditional replacement 
+Feature Scaling:  
+StandardScaler: (X - mean) / std_dev 
+Applied to all numeric features after encoding 
+Ensures zero mean and unit variance 
+Data Splitting:  
+Sequential split (not random) 
+Training set: First 80% of rows 
+Test set: Last 20% of rows 
+No shuffling applied 
+Model Configuration:  
+Algorithm: DecisionTreeClassifier 
+max_depth: 4 (prevents overfitting) 
+random_state: 42 (ensures reproducibility) 
+criterion: default (gini) 
+
+
+Error Handling: 
+
+
+
+File not found: Print "Error: Unable to read file '{filename}'." and exit 
+Missing target column: Print "Error: Target column 'Purchase Likelihood' not found in dataset." and exit 
+
+
+Output Formatting: 
+
+
+
+Outlier assessment with clear column labels 
+Accuracy displayed as percentage with 2 decimal places 
+Section dividers using equals signs (=) for final output 
+
+
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+
+--- Outlier Assessment ---
+Purchase Frequency: 0 outliers
+Total Purchase Value: 0 outliers
+Promotional Content Clicked: 0 outliers
+Discount Sensitivity: 0 outliers
+Average Cart Size: 0 outliers
+Preferred Product Category: 0 outliers
+Session Duration: 0 outliers
+Returns Frequency: 0 outliers
+Loyalty Program Member: 0 outliers
+Monthly Income: 0 outliers
+Customer Review Count: 0 outliers
+Customer Sentiment: 0 outliers
+Average Product Price: 0 outliers
+Cart Abandonment Rate: 0 outliers
+Last Purchase Recency: 0 outliers
+Preferred Brands: 0 outliers
+Purchase Likelihood: 0 outliers
+
+==============================
+Model Accuracy: 81.82 %
+==============================
