@@ -20,13 +20,13 @@ This git repo consists of the following related to the course "Advanced ML techn
 
 ### Ongoing
 
-None
+- Day 3
 
 ### Problamitic Questions
 
 #### Day 2
 
-concept 1 - sample testcases are passing, hidden is not passing. The logic is implemented correctly but the portal is not accepting it.
+concept 1 - sample testcases are passing, hidden is not passing. The logic is implemented correctly but the testcasesare wrong
 
 ### Yet to Start
 

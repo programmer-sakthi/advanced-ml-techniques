@@ -1,0 +1,224 @@
+Problem Statement 
+
+
+
+A healthcare analytics team is developing a predictive model to identify patients at risk of developing diabetes. The team has collected a dataset containing various health metrics including fasting blood sugar levels, BMI, age, family history of diabetes, and HbA1c levels. To build an effective Decision Tree classifier, the team needs to determine which feature should be selected as the root node of the tree. 
+
+
+
+Decision Trees use Information Gain as a key metric to select the best feature for splitting the data at each node. Information Gain measures the reduction in entropy (uncertainty) achieved by splitting the dataset based on a particular feature. The feature with the highest Information Gain should be selected as it provides the most valuable information for classification. 
+
+
+
+As part of the initial tree construction process, the team needs to: 
+
+
+
+Calculate Parent Node Entropy – Compute the entropy of the entire dataset before any split, representing the initial uncertainty in classifying patients as diabetic or non-diabetic. 
+Evaluate Information Gain for Key Features – Calculate the Information Gain for three critical health indicators: 
+Fasting blood sugar levels (threshold: > 0) 
+BMI (Body Mass Index) (threshold: > 0) 
+Family History of diabetes (threshold: > 0) 
+Identify the Best Root Node Feature – Select the feature with the highest Information Gain as the optimal choice for the root node of the Decision Tree. 
+
+
+This analysis will enable the team to build a more accurate and interpretable Decision Tree model, helping healthcare providers make data-driven decisions about patient care and early intervention strategies. 
+
+
+
+Mathematical Background [FYI]
+
+
+
+Entropy Formula: 
+
+Entropy measures the impurity or uncertainty in a dataset: 
+
+
+
+H(S) = -Σ(p_i × log₂(p_i)) 
+
+
+
+Where: 
+
+
+
+H(S) = Entropy of dataset S 
+p_i = Probability of class i 
+The sum is over all classes (in this case: diabetic vs non-diabetic) 
+
+
+Information Gain Formula: 
+
+Information Gain measures the reduction in entropy after splitting: 
+
+
+
+IG(S, A) = H(S) - Σ((|S_v| / |S|) × H(S_v)) 
+
+
+
+Where: 
+
+
+
+IG(S, A) = Information Gain of splitting dataset S on attribute A 
+H(S) = Entropy of parent dataset 
+S_v = Subset of S where attribute A has value v 
+|S_v| / |S| = Weight of each subset (proportion of samples) 
+H(S_v) = Entropy of subset S_v 
+ 
+
+
+
+ CSV File Structure :
+
+﻿
+
+
+
+Sample input :
+
+
+
+Fasting blood,bmi,age,FamilyHistory,HbA1c,target
+
+-0.848292111,0.120422627,-1.06023521,0.955764618,0.729105631,0
+
+2.029326238,0.462993312,0.667385327,0.955764618,1.157120802,1
+
+-1.338795239,-0.69876814,-0.714711102,0.955764618,1.585135973,0
+
+0.819418523,1.550282876,-0.801092129,-1.046282716,1.585135973,0
+
+1.865825195,0.269366403,2.308624837,-1.046282716,-0.554939883,0
+
+
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing patient data.
+Input must include the file extension .csv.
+Output format :
+Program Output Sequence 
+
+
+
+The program generates the following outputs in sequence: 
+
+
+
+1. Parent Node Entropy: 
+
+Displays the entropy of the entire dataset before any split 
+Format: Parent Node Entropy: X.XXX (rounded to 3 decimal places) 
+This represents the uncertainty in the target variable across all samples
+
+
+2. Information Gain for Fasting blood: 
+
+Displays the Information Gain achieved by splitting on Fasting blood sugar levels (using threshold > 0) 
+Format: Information Gain (Fasting blood): X.XXX (rounded to 3 decimal places) 
+
+
+3. Information Gain for BMI: 
+
+Displays the Information Gain achieved by splitting on BMI (using threshold > 0) 
+Format: Information Gain (bmi): X.XXX (rounded to 3 decimal places) 
+
+
+4. Information Gain for Family History: 
+
+Displays the Information Gain achieved by splitting on Family History (using threshold > 0) 
+Format: Information Gain (FamilyHistory): X.XXX (rounded to 3 decimal places) 
+
+
+5. Best Feature Selection: 
+
+Identifies and displays the feature with the highest Information Gain 
+Format: Best Feature for root node: [feature_name] with Information Gain: X.XXX 
+This feature should be used as the root node of the Decision Tree 
+ 
+
+
+
+Code constraints :
+
+
+CSV File Constraints 
+
+File must be a valid comma-separated CSV file with .csv extension 
+File must exist in the same directory as the Python script 
+File must contain a header row with exact column names (case-sensitive) 
+All 6 columns must be present with exact names: Fasting blood, bmi, age, FamilyHistory, HbA1c, target 
+The dataset contains standardized/normalized feature values 
+
+
+Column Data Constraints 
+
+Fasting blood: Numeric float values (standardized) representing fasting blood sugar levels 
+bmi: Numeric float values (standardized) representing Body Mass Index 
+age: Numeric float values (standardized) representing patient age 
+FamilyHistory: Numeric values (typically standardized) representing family history of diabetes 
+HbA1c: Numeric float values (standardized) representing glycated hemoglobin levels 
+target: Binary values (0 = Non-diabetic, 1 = Diabetic) – Target Variable 
+
+
+Feature Selection Constraints 
+
+Only three features are evaluated for the root node: Fasting blood, bmi, and FamilyHistory 
+All feature thresholds are set at 0 (values > 0 vs values ≤ 0) 
+This threshold choice is appropriate for standardized data where 0 represents the mean 
+
+
+Program Constraints 
+
+The program uses numpy for efficient numerical computations 
+If the CSV file cannot be read, the program prints: "Error: Unable to read file '{filename}'." and exits 
+Data is loaded using np.genfromtxt() with comma delimiter and header skipping 
+The target variable is extracted from the last column (index -1) 
+Entropy Calculation:  
+Uses base-2 logarithm (log₂) for binary classification 
+Handles edge cases where probability = 0 by excluding such terms from the sum 
+Formula: H = -Σ(p × log₂(p)) for p > 0 
+Information Gain Calculation:  
+Computes weighted average of child entropies 
+Subtracts weighted entropy from parent entropy 
+Formula: IG = H_parent - Σ((n_child / n_total) × H_child) 
+Feature Splitting:  
+Binary splits based on threshold comparisons (> 0) 
+Creates two child nodes: samples where feature > 0 and samples where feature ≤ 0 
+Handles empty splits gracefully by assigning 0 entropy 
+All numerical outputs are formatted to 3 decimal places 
+Feature names in output must match exactly: "Fasting blood", "bmi", "FamilyHistory" 
+
+
+Input/Output Specifications 
+
+Input: The program accepts one line of input containing the CSV filename 
+Output: Sequential display of:  
+Parent node entropy 
+Information Gain for each evaluated feature (Fasting blood, bmi, FamilyHistory) 
+Best feature recommendation with its Information Gain value 
+
+
+Implementation Notes 
+
+The entropy() function calculates Shannon entropy given a list of probabilities 
+The calculate_information_gain() function takes parent entropy and a list of (sample_count, child_entropy) tuples 
+Boolean indexing is used to split data based on feature thresholds 
+The program uses dictionary to store and compare Information Gain values for feature selection 
+Division by zero is prevented by checking subset sizes before entropy calculation 
+ 
+
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+Parent Node Entropy: 0.999
+Information Gain (Fasting blood): 0.041
+Information Gain (bmi): 0.029
+Information Gain (FamilyHistory): 0.000
+Best Feature for root node: Fasting blood with Information Gain: 0.041
