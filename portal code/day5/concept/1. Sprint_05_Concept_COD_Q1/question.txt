@@ -1,0 +1,351 @@
+Problem Statement 
+
+
+
+A healthcare research institution is developing a robust predictive model to identify individuals at high risk of developing diabetes. Unlike traditional train-test split approaches that may produce overly optimistic or pessimistic performance estimates depending on how the data is split, the research team needs a more reliable evaluation methodology that provides stable and generalizable performance metrics. 
+
+
+
+The institution has collected comprehensive health data including 19 clinical and lifestyle features such as fasting blood sugar levels, BMI, HbA1c levels, age, family history, physical activity, dietary habits, blood pressure readings, cholesterol levels, medication usage, healthcare utilization patterns, stress levels, sleep hours, comorbidities, geographical location, insurance coverage, lab test frequency, and recent hospitalizations. 
+
+
+
+To build and evaluate a production-ready diabetes prediction model, the team needs to: 
+
+
+
+Objectives 
+
+
+
+1. Implement Robust Cross-Validation Strategy 
+
+
+
+Use Repeated Stratified K-Fold Cross-Validation – Apply a rigorous evaluation method that:  
+Divides data into K=10 folds while preserving class distribution in each fold 
+Repeats the entire process 3 times with different data shuffling 
+Provides 30 total evaluation iterations (10 folds × 3 repeats) 
+Reduces variance in performance estimates compared to single train-test split 
+Ensures every data point is used for both training and testing 
+
+
+2. Train Random Forest Classifier 
+
+
+
+Build an ensemble model using Random Forest algorithm with:  
+Multiple decision trees (n_estimators=100) for robust predictions 
+Controlled tree depth (max_depth=5) to prevent overfitting 
+Out-of-Bag (OOB) scoring enabled for additional validation 
+Parallel processing (n_jobs=-1) for computational efficiency 
+Fixed random state (random_state=42) for reproducibility 
+
+
+3. Comprehensive Model Evaluation 
+
+
+
+Calculate Cross-Validation Accuracy – Aggregate predictions across all 30 iterations to compute overall model accuracy 
+Compute Out-of-Bag (OOB) Score – Use the OOB estimate as an independent validation metric  
+OOB samples are data points not selected during bootstrap sampling for each tree 
+Provides unbiased estimate of model performance without separate test set 
+Serves as a secondary validation measure 
+
+
+4. Report Stable Performance Metrics 
+
+
+
+Display both accuracy and OOB score with consistent formatting 
+Provide confidence in model generalization through repeated validation 
+Enable comparison with other models using standardized evaluation protocol 
+ 
+
+
+
+ CSV File Structure :
+
+
+
+
+
+﻿
+
+
+
+Sample data :
+
+
+
+Fasting Blood Sugar Level,BMI,HbA1c Level,Age,Family History of Diabetes,Physical Activity Level,Dietary Habits,BP_Upper value,BP_Lower value,Cholesterol Levels,Medications Used,Number of Doctor Visits,Stress Level,Hours of Sleep,Comorbidities,Geographical Location,Insurance Coverage,Lab Test Frequency,Recent Hospitalization,target
+
+-0.745816422,2.126154437,-0.326312702,1.403955037,1.210822549,-0.08238643,-1.674935877,0.106558034,0.785850417,-1.02276741,-0.559622617,-0.008361325,-1.700982217,-0.100580534,-0.93135916,-1.525708695,0.825884851,0.977946293,-1.415567789,1
+
+0.007777946,-1.614134594,1.597865615,0.640689697,-0.825884851,1.646863967,0.895955723,-0.831152665,-1.227370616,-0.700980083,0.859388774,1.366102984,-0.414795285,-0.829476592,-0.93135916,0.655433113,-1.210822549,0.109046877,-1.415567789,1
+
+-0.256597496,-1.913344469,0.941765064,-1.076657318,-0.825884851,-1.317565285,-0.389490077,1.044268733,-0.949684956,-1.413683105,-0.559622617,-1.382825633,-0.414795285,0.716394058,0.889479862,-1.525708695,0.825884851,1.557212571,0.722213921,1
+
+1.187635947,1.904778621,0.981421703,-0.981249151,1.210822549,1.399828196,0.895955723,-1.001645519,-0.741420711,-1.101736596,0.859388774,1.366102984,0.871391646,-0.033094861,0.889479862,0.655433113,-1.210822549,1.267579432,0.722213921,1
+
+0.190924662,0.396874867,-1.197138189,0.831506032,1.210822549,1.152792425,0.895955723,-1.385254442,-0.463735052,0.200180078,-0.559622617,-0.695593479,0.871391646,0.707607167,-0.93135916,-1.525708695,0.825884851,-0.470219401,-0.702973886,1
+
+0.281697355,-0.883579633,-0.146622838,0.306761111,-0.825884851,-0.823493743,-0.389490077,1.001645519,1.549485981,0.679972279,-0.914375465,-0.924670864,-0.414795285,1.459180828,0.889479862,-1.525708695,0.825884851,-1.049485679,-0.702973886,1
+
+
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing the data.
+Input must include the file extension .csv.
+Output format :
+The program executes the following sequence: 
+
+
+
+1. File Input and Data Loading 
+
+
+
+Accept CSV filename as input via standard input 
+Load standardized/normalized health data using pandas 
+Handle file reading errors with appropriate error messages 
+
+
+2. Data Validation 
+
+
+
+Verify presence of 'target' column (binary: 0 = non-diabetic, 1 = diabetic) 
+Separate features (X) from target variable (y) 
+Prepare data in numpy array format for sklearn compatibility 
+
+
+3. Cross-Validation Setup 
+
+
+
+Initialize Repeated Stratified K-Fold with:  
+n_splits=10: Divide data into 10 folds 
+n_repeats=3: Repeat entire process 3 times 
+random_state=42: Ensure reproducibility 
+Stratification ensures class balance in each fold 
+
+
+4. Model Configuration 
+
+
+
+Initialize Random Forest Classifier with:  
+max_depth=5: Limit tree depth to prevent overfitting 
+n_estimators=100: Build ensemble of 100 trees 
+n_jobs=-1: Use all CPU cores for parallel training 
+oob_score=True: Enable out-of-bag score calculation 
+random_state=42: Fix random seed for consistency 
+
+
+5. Cross-Validation Loop Execution 
+
+
+
+For each of 30 iterations (10 folds × 3 repeats):  
+Split data into training and testing sets according to fold 
+Train Random Forest model on training data 
+Generate predictions on test data 
+Store true labels and predictions for aggregation 
+
+
+6. Performance Calculation 
+
+
+
+Concatenate all predictions from 30 iterations 
+Concatenate all true labels from 30 iterations 
+Calculate overall accuracy score across all iterations 
+
+
+7. Full Dataset Training 
+
+
+
+Retrain Random Forest on complete dataset 
+Calculate Out-of-Bag (OOB) score as additional validation metric 
+
+
+8. Results Output 
+
+
+
+Display formatted output: 
+================================= 
+
+ Accuracy: X.XXX 
+
+ OOB Score: X.XXX 
+
+ ================================= 
+
+Both metrics rounded to 3 decimal places 
+ 
+
+Code constraints :
+CSV File Constraints 
+
+
+
+File must be a valid comma-separated CSV file with .csv extension 
+File must exist in the same directory as the Python script 
+File must contain a header row with exact column names (case-sensitive) 
+Must contain exactly 20 columns: 19 feature columns + 1 target column 
+Required feature columns (standardized/normalized values):  
+Fasting Blood Sugar Level 
+BMI 
+HbA1c Level 
+Age 
+Family History of Diabetes 
+Physical Activity Level 
+Dietary Habits 
+BP_Upper value 
+BP_Lower value 
+Cholesterol Levels 
+Medications Used 
+Number of Doctor Visits 
+Stress Level 
+Hours of Sleep 
+Comorbidities 
+Geographical Location 
+Insurance Coverage 
+Lab Test Frequency 
+Recent Hospitalization 
+Required target column: target (binary: 0 or 1) 
+
+
+Column Data Constraints 
+
+
+
+All features: Standardized float values (typically centered around 0 with standard deviation ≈ 1)  
+Data has been preprocessed using StandardScaler or similar normalization 
+Values typically range from approximately -3 to +3 
+No missing values allowed 
+Target variable: Binary integer values  
+0 = Non-diabetic / Negative for diabetes 
+1 = Diabetic / Positive for diabetes 
+Must be present as the last column named 'target' 
+
+
+Program Constraints 
+
+
+
+Library Requirements: 
+
+
+
+pandas for data loading and manipulation 
+numpy for numerical array operations 
+scikit-learn for machine learning (RandomForestClassifier, RepeatedStratifiedKFold, accuracy_score) 
+warnings module to suppress warning messages 
+os and sys for file path handling 
+
+
+Cross-Validation Methodology: 
+
+
+
+Stratified K-Fold: Preserves class distribution in each fold  
+If dataset is 60% class 0 and 40% class 1, each fold maintains this ratio 
+Prevents biased evaluation from imbalanced folds 
+Repeated: Performs entire K-fold process multiple times  
+Each repetition uses different random shuffling 
+Reduces variance in performance estimate 
+Total iterations = n_splits × n_repeats = 10 × 3 = 30 
+Random State: Fixed at 42 for reproducibility
+ 
+
+Random Forest Configuration: 
+
+
+
+max_depth=5:  
+Limits tree depth to prevent overfitting 
+Balances model complexity with generalization 
+Suitable for medical data where interpretability matters 
+n_estimators=100:  
+Builds ensemble of 100 decision trees 
+More trees generally improve stability and accuracy 
+Computational cost managed through parallel processing 
+n_jobs=-1:  
+Utilizes all available CPU cores 
+Significantly speeds up training time 
+Enables efficient processing of repeated cross-validation 
+oob_score=True:  
+Enables Out-of-Bag scoring 
+OOB samples are those not selected during bootstrap sampling 
+Approximately 36.8% of samples are OOB for each tree 
+Provides independent validation without separate test set 
+random_state=42:  
+Ensures reproducible results 
+Same random seed produces identical model behavior 
+
+
+Error Handling: 
+
+
+
+File not found: Print "Error: Unable to read file '{filename}'." and exit with code 1 
+Missing target column: Print "Error: Target column 'target' not found." and exit with code 1 
+Suppress sklearn warnings using warnings.filterwarnings("ignore") 
+
+
+Output Formatting: 
+
+
+
+Use equals signs (=) for section dividers (33 characters wide) 
+Display "Accuracy:" followed by value rounded to 3 decimal places 
+Display "OOB Score:" followed by value rounded to 3 decimal places 
+Format: f"{value:.3f}" for both metrics
+
+
+Implementation Notes 
+
+
+
+Data Separation: 
+
+
+
+Features (X): All columns except the last one (df.iloc[:, :-1].values) 
+Target (y): Last column (df['target'].values) 
+Convert to numpy arrays for sklearn compatibility 
+
+
+Cross-Validation Prediction Aggregation: 
+
+
+
+Store predictions and true labels from each fold in lists 
+Use np.concatenate() to combine all predictions into single array 
+Calculate accuracy on entire concatenated array for overall metric 
+
+
+OOB Score Calculation: 
+
+
+
+After cross-validation, retrain model on full dataset 
+OOB score automatically calculated when oob_score=True 
+Access via clf_r.oob_score_ attribute 
+OOB score typically correlates with cross-validation accuracy 
+ 
+
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+=================================
+Accuracy: 0.921
+OOB Score: 0.921
+=================================
