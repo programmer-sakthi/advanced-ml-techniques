@@ -13,6 +13,7 @@ This git repo consists of the following related to the course "Advanced ML techn
 ### Completed ( all )
 
 - Day 1
+- Day 3
 
 ### Partially Completed ( with pending due to error in portal or someother reason )
 
@@ -20,7 +21,7 @@ This git repo consists of the following related to the course "Advanced ML techn
 
 ### Ongoing
 
-- Day 3
+- Day 5
 
 ### Problamitic Questions
 
@@ -31,7 +32,6 @@ concept 1 - sample testcases are passing, hidden is not passing. The logic is im
 ### Yet to Start
 
 - Day 4
-- Day 5
 - Day 6
 - Day 7
 - Day 8
