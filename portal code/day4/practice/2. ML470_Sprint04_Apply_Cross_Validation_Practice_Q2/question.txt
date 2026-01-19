@@ -1,0 +1,203 @@
+﻿Problem Statement
+
+
+
+Building on the data preparation stage, the HR analytics team now aims to develop a baseline regression model to predict employees’ average monthly working hours. This first-cut model helps assess whether the existing features contain meaningful predictive patterns before moving into advanced modeling or hyperparameter tuning.
+
+
+
+A baseline model is important because it:
+
+
+
+Provides a performance benchmark against which future, more optimized models can be compared.
+Validates data usefulness, ensuring that the prepared features have sufficient predictive signal.
+Enables rapid prototyping, offering quick insights without complex configurations.
+Guides further development, indicating whether additional feature engineering or model complexity may be required.
+
+
+For this task, the team uses a Decision Tree Regressor, as it naturally handles non-linear relationships between employee characteristics (such as satisfaction level, evaluation score, and number of projects) and their working hours, without assuming linearity or requiring complex preprocessing.
+
+
+
+The data scientist needs to:
+
+
+
+Create a Decision Tree Regressor – Initialize a regression model using default parameters with a fixed random state for reproducibility. This ensures consistent results across different runs.
+
+
+Apply 5-fold Cross-Validation – Evaluate the model's generalization capability by splitting the data into 5 folds, training on 4 folds and validating on the remaining fold, repeating this process 5 times. This technique provides a robust estimate of model performance.
+
+
+Calculate Cross-Validated MSE – Use negative Mean Squared Error (MSE) as the scoring metric during cross-validation to measure prediction accuracy. MSE quantifies the average squared difference between predicted and actual values, with lower values indicating better performance.
+
+
+Train the final model – Fit the Decision Tree Regressor on the entire training dataset to prepare it for making predictions.
+
+
+Generate predictions – Use the trained model to predict average monthly hours for all employees in the dataset, allowing HR to identify patterns and potential concerns.
+
+
+This baseline modeling phase provides the foundation for understanding model performance and guides decisions about model refinement, feature engineering, and hyperparameter optimization in subsequent phases.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+satisfaction_level,last_evaluation,number_project,average_monthly_hours,time_spend_company,Work_accident,left,promotion_last_5years,Department,salary,salary.enc,Department.enc
+
+0.38,0.53,2,157,3,0,1,0,sales,low,1,7
+
+0.8,0.86,5,262,6,0,1,0,sales,medium,2,7
+
+0.11,0.88,7,272,4,0,1,0,sales,medium,2,7
+
+0.72,0.87,5,223,5,0,1,0,sales,low,1,7
+
+0.37,0.52,2,159,3,0,1,0,sales,low,1,7
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing employee data.
+Input must include the file extension .csv.
+Output format :
+The program generates the following outputs in sequence:
+
+
+
+Cross-Validated MSE:
+
+
+
+Prints: "Cross-validated MSE: X" where X is the mean of the negative MSE scores converted to positive MSE.
+The value must be displayed with 2 decimal places.
+This MSE is computed using a DecisionTreeRegressor initialized with random_state = 42 to ensure reproducibility.
+The model is evaluated using 5-fold Cross-Validation (cv = 5) with scoring='neg_mean_squared_error'.
+This output represents the average Mean Squared Error across all folds.
+Lower MSE values indicate better prediction accuracy.
+Negative MSE values returned by cross_val_score must be converted to positive before displaying.”
+
+
+Predictions:
+
+
+
+Prints: "Predictions: " followed by a NumPy array of predicted values.
+The array contains the predicted average monthly hours for all records in the dataset.
+The predictions are generated using the Decision Tree Regressor (random_state = 42) trained on the full dataset after cross-validation.
+Values are displayed as floats with 1 decimal place (e.g., 157., 262., 272.).
+The array uses square brackets with values separated by single spaces.
+If the array is long, multiple lines may be used with proper indentation, following NumPy’s default formatting.
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Requirements
+
+
+
+File must be a comma-separated .csv file located in the same directory as main.py.
+The CSV must contain exactly these 12 columns (case-sensitive): satisfaction_level, last_evaluation, number_project, average_monthly_hours, time_spend_company, Work_accident, left, promotion_last_5years, Department, salary, salary.enc, Department.enc
+Column order must match exactly.
+Must contain at least 5 rows (minimum required for 5-fold cross-validation).
+Categorical columns (Department, salary) and their encoded versions must already exist.
+
+
+Column Data Type Requirements
+
+
+
+satisfaction_level, last_evaluation → float
+number_project, average_monthly_hours, time_spend_company → non-negative integers
+Work_accident, left, promotion_last_5years → integers (0 or 1)
+Department, salary → string (these will be dropped)
+salary.enc, Department.enc → integers (encoded categories)
+
+
+Model Configuration
+
+
+
+Model used: DecisionTreeRegressor from sklearn.tree.
+Hyperparameters: all defaults (no tuning).
+random_state = 42 is mandatory for reproducibility.
+Default behavior includes:
+criterion='squared_error'
+splitter='best'
+max_depth=None
+min_samples_split=2
+min_samples_leaf=1
+
+
+Cross-Validation Requirements
+
+
+
+Must use 5-fold Cross-Validation (cv=5).
+Scoring metric: neg_mean_squared_error (negative MSE).
+Output must display the positive mean MSE, formatted to 2 decimal places.
+
+
+Feature Preprocessing
+
+
+
+Before modeling, drop: Department and salary.
+Feature set (X) must contain exactly these 9 columns: satisfaction_level, last_evaluation, number_project, time_spend_company, Work_accident, left, promotion_last_5years, salary.enc, Department.enc
+Target (y): average_monthly_hours only.
+Scaling is mandatory:
+Use data_scale() from ML_Modules.py.
+Must scale only numeric columns using StandardScaler.
+Scaled DataFrame must preserve original column names.
+
+
+Prediction Requirements
+
+
+
+Model must be trained on the entire dataset after cross-validation.
+Predictions must be generated for all samples in X.
+Output must be a NumPy array of floats, printed with 1 decimal place.
+
+
+Program Behavior
+
+
+
+If the CSV file is not found, program must print: Error: File '{filename}' not found. and exit.
+All warnings must be suppressed using: warnings.simplefilter(action='ignore')
+
+
+ML_Modules.py Requirements
+
+
+
+ML_Modules.py must:
+Exist in the same directory as main.py.
+Contain a function data_scale(X_DT) that:
+Accepts a DataFrame
+Selects numeric columns
+Applies StandardScaler().fit_transform()
+Returns a scaled DataFrame with the same column names
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+Cross-validated MSE: 1239.92
+Predictions: [157. 262. 272. 223. 159. 153. 247. 259. 224. 142. 135. 305. 234. 148.
+ 137. 143. 160. 255. 160. 262. 282. 147. 304. 139. 158. 242. 239. 135.
+ 128. 132. 294. 134. 145. 140. 246. 255. 137. 126. 306. 152. 269. 158.
+ 127. 281. 276. 182. 147. 273. 148. 135.]

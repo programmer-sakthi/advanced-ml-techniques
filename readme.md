@@ -14,6 +14,7 @@ This git repo consists of the following related to the course "Advanced ML techn
 
 - Day 1
 - Day 3
+- Day 4
 - Day 5
 
 ### Partially Completed ( with pending due to error in portal or someother reason )
@@ -22,7 +23,7 @@ This git repo consists of the following related to the course "Advanced ML techn
 
 ### Ongoing
 
-- Day 4
+None
 
 ### Problamitic Questions
 

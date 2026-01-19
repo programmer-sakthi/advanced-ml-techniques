@@ -1,0 +1,258 @@
+Problem Statement
+
+
+
+Predicting employee working hours accurately requires not only selecting an appropriate machine learning model but also configuring it with optimal hyperparameters. Model hyperparameters directly influence learning behavior, model complexity, and the ability to generalize to unseen data. Using poorly chosen hyperparameters can lead to models that either overfit the training data or fail to capture important patterns.
+
+
+
+In this task, the HR analytics team aims to optimize a Decision Tree Regression model to improve prediction performance for average monthly working hours. This is achieved through systematic hyperparameter tuning, proper validation, and unbiased evaluation on unseen data.
+
+
+
+Decision Tree Regressors are highly flexible models but are prone to overfitting if not controlled. Key hyperparameters play a critical role in managing this behavior:
+
+
+
+max_depth – Limits the maximum depth of the tree to prevent overly complex models
+min_samples_split – Specifies the minimum number of samples required to split an internal node
+min_samples_leaf – Ensures a minimum number of samples at each leaf node to improve generalization
+
+
+To identify the optimal combination of these parameters, an exhaustive search strategy is required.
+
+
+
+Task Objectives
+
+
+
+The data scientist must perform the following steps:
+
+
+
+1. Split the dataset
+
+
+
+Divide the dataset into:
+Training set (80%)
+Test set (20%)
+Use a fixed random state to ensure reproducibility.
+
+
+2. Define the hyperparameter search space
+
+
+
+Create a parameter grid consisting of multiple values for:
+max_depth
+min_samples_split
+min_samples_leaf
+
+
+3. Perform hyperparameter tuning using GridSearchCV
+
+
+
+Apply GridSearchCV with 5-fold cross-validation
+Use Mean Squared Error (MSE) as the evaluation metric
+Systematically evaluate all parameter combinations
+Identify the best-performing model configuration
+
+
+4. Train the optimized model
+
+
+
+Fit the best estimator obtained from GridSearchCV on the complete training dataset.
+
+
+5. Evaluate model performance on unseen data
+
+
+
+Generate predictions on the test set
+Compute the Test Mean Squared Error (MSE) to assess real-world performance
+
+
+6. Calculate target variance
+
+
+
+Compute the variance of the target variable (average_monthly_hours) to provide a reference baseline for interpreting MSE values.
+
+
+This task results in a tuned and validated Decision Tree Regression model whose performance is evaluated using both cross-validation and an independent test set. By comparing model error against the variance of the target variable, the effectiveness and practical usefulness of the model can be clearly assessed. This optimized approach ensures reliable and generalizable predictions for workforce planning and HR decision-making.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+satisfaction_level,last_evaluation,number_project,average_monthly_hours,time_spend_company,Work_accident,left,promotion_last_5years,Department,salary,salary.enc,Department.enc
+
+0.38,0.53,2,157,3,0,1,0,sales,low,1,7
+
+0.8,0.86,5,262,6,0,1,0,sales,medium,2,7
+
+0.11,0.88,7,272,4,0,1,0,sales,medium,2,7
+
+0.72,0.87,5,223,5,0,1,0,sales,low,1,7
+
+0.37,0.52,2,159,3,0,1,0,sales,low,1,7
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing employee data.
+Input must include the file extension .csv.
+Output format :
+The program generates the following outputs in sequence:
+
+
+
+1. Cross-Validated MSE (After Tuning):
+
+
+
+Prints: "Cross-validated MSE (after tuning): X" where X is the mean MSE from 5-fold cross-validation on the training set using the best hyperparameters
+The value is displayed with 2 decimal places
+
+
+2. Test MSE:
+
+
+
+Prints: "Test MSE: X" where X is the Mean Squared Error calculated on the held-out test set
+The value is displayed with 2 decimal places
+
+
+3. Best Hyperparameters:
+
+
+
+Prints: "Best Hyperparameters: " followed by a dictionary containing the optimal hyperparameter values
+Dictionary format: {'max_depth': value, 'min_samples_leaf': value, 'min_samples_split': value}
+
+
+4. Variance of Target:
+
+
+
+Prints: "Variance of target: X" where X is the variance of the target variable (average_monthly_hours)
+The value is displayed with 3 decimal places
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+1. CSV File Constraints
+
+
+
+Input must be a .csv file
+File must exist in the same directory as main.py
+The CSV file must contain the following exact column names (case-sensitive): satisfaction_level, last_evaluation, number_project, average_monthly_hours, time_spend_company, Work_accident, left, promotion_last_5years, Department, salary, salary.enc, Department.enc
+File must contain sufficient rows to support an 80–20 train-test split with 5-fold cross-validation
+
+
+2. Feature & Target Constraints
+
+
+
+Target variable (y): average_monthly_hours (numeric)
+Dropped columns (before modeling):
+Department
+salary
+Input features (X): satisfaction_level, last_evaluation, number_project, time_spend_company, Work_accident, left, promotion_last_5years, salary.enc, Department.enc
+
+
+3. Data Preprocessing Constraints
+
+
+
+All input features must be numerical
+Feature scaling must be applied using StandardScaler
+Scaling must be fit only on the training data and then applied to both training and test sets
+
+
+4. Train–Test Split Constraints
+
+
+
+Split ratio: 80% training / 20% testing
+Random state: 42
+No stratification applied
+
+
+5. Model Constraints
+
+
+
+Base model: DecisionTreeRegressor
+Fixed parameter: random_state = 42
+
+
+6. Hyperparameter Tuning Constraints
+
+
+
+Hyperparameters tuned using GridSearchCV:
+max_depth: [3, 5, 7, 9, None]
+min_samples_split: [2, 5, 10]
+min_samples_leaf: [1, 2, 4]
+Total hyperparameter combinations: 45
+Cross-validation folds: 5
+Scoring metric: negative mean squared error
+Best model must be selected automatically using lowest MSE
+
+
+7. Evaluation Constraints
+
+
+
+Cross-validated MSE must be computed on the training set
+Test MSE must be computed using the held-out test set
+Target variance must be calculated using the entire target variable
+
+
+8. ML_Modules.py Constraints
+
+
+
+ML_Modules.py must exist in the same directory and contain:
+data_scale(X_DT)
+Scales numeric features using StandardScaler
+Returns a pandas DataFrame
+split_data(X, y, test_size)
+Uses train_test_split
+Uses random_state = 42
+Returns (X_train, X_test, y_train, y_test)
+
+
+9. Program Execution Constraints
+
+
+
+If the CSV file is missing, the program must terminate with an error message
+Model training and tuning must occur only on training data
+Test data must be used only for final evaluation
+All warnings must be suppressed during execution
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+Cross-validated MSE (after tuning): 304.78
+Test MSE: 2528.36
+Best Hyperparameters: {'max_depth': 5, 'min_samples_leaf': 2, 'min_samples_split': 10}
+Variance of target: 3833.650
