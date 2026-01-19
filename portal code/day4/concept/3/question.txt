@@ -1,0 +1,344 @@
+Problem Statement
+
+
+
+A healthcare analytics team aims to predict patients’ fasting blood glucose levels using clinical indicators such as BMI, age, insulin level, family history, and blood pressure. Since fasting blood glucose is a continuous numeric value, this task is framed as a regression problem.
+
+
+
+Decision Tree Regressors are well-suited for this task because they can model non-linear relationships between medical features and glucose levels. However, their performance depends heavily on the choice of hyperparameters. To obtain a reliable and well-optimized model, the regression workflow must combine:
+
+
+
+A train–test split for evaluating real-world performance
+GridSearchCV to systematically tune tree hyperparameters
+Cross-validation to assess model stability and robustness
+RMSE-based evaluation to quantify prediction error
+
+
+The goal is to build an optimized regression model, evaluate its predictive error, and interpret whether the model performs meaningfully compared to a simple baseline.
+
+
+
+Tasks to be Performed
+
+
+
+The data scientist must perform the following steps:
+
+
+
+Load and preview the dataset
+
+
+
+Read the input CSV file provided by the user
+Display the first 5 rows of the dataset
+
+
+Separate features and target variable
+
+
+
+Use the following as input features: bmi, age, insulin, FamilyHistory, bp
+Use Fasting blood as the target variable
+
+
+Split the dataset
+
+
+
+Divide the data into 70% training and 30% testing sets
+Use the split_data() function from ML_Modules.py
+
+
+Perform hyperparameter tuning with cross-validation
+
+
+
+Define a hyperparameter grid for a Decision Tree Regressor
+Use GridSearchCV with 5-fold cross-validation on the training set
+Select the model with the lowest cross-validated error
+
+
+Report the best hyperparameters
+
+
+
+Display the optimal tree configuration identified by GridSearchCV
+
+
+Evaluate model using cross-validation on full dataset
+
+
+
+Apply 5-fold cross-validation using the optimized model
+Compute RMSE for each fold and the mean RMSE
+
+
+Evaluate final model on test data
+
+
+
+Train the optimized model on the training set
+Predict fasting blood glucose values on the test set
+Compute test RMSE
+
+
+Interpret model performance
+
+
+
+Calculate the standard deviation of the target variable
+Compare RMSE with standard deviation
+Conclude whether the model provides meaningful predictive value
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+bmi,age,insulin,FamilyHistory,bp,Fasting blood
+
+-0.710420998,-0.968299095,-0.522842006,1,-0.373654813,89
+
+1.426730065,0.209585297,0.100630859,-1,-2.456964359,137
+
+-0.297238459,-0.477513932,-0.57339386,-1,-1.655691457,78
+
+-0.368476828,2.172725951,3.260121726,-1,-0.053145652,197
+
+-0.425467523,2.761668147,5.812990346,1,-0.854418554,189
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing patient health indicator data.
+Input must include the file extension .csv.
+Output format :
+The program generates the following outputs in sequence:
+
+
+
+1. Data Preview:
+
+
+
+Displays the first 5 rows of the dataset using .head()
+Shows all columns in tabular format with column names and row indices
+Float values displayed with 6 decimal places
+Integer values (FamilyHistory, Fasting blood) displayed without decimal places
+
+
+2. Blank Line:
+
+
+
+A single blank line separates data preview from model results
+
+
+3. Best Hyperparameters:
+
+
+
+Prints: "Best Hyperparameters: " followed by a dictionary
+Dictionary format: {'max_depth': value, 'min_samples_leaf': value, 'min_samples_split': value}
+Keys ordered alphabetically
+Values show optimal configuration identified by GridSearchCV
+
+
+4. Cross-Validation RMSE Scores:
+
+
+
+Prints: "Cross-Validation RMSE Scores: " followed by a numpy array
+Array contains 5 RMSE values (one per fold) from cross-validation on the full dataset
+Values represent square root of negative MSE scores
+Format: [27.15883461 36.67729013 24.89016804 34.06312492 29.42564783]
+
+
+5. Mean RMSE:
+
+
+
+Prints: "Mean RMSE: X" where X is the average of all 5 cross-validation RMSE scores
+Displays full precision (e.g., 30.44301310338263)
+
+
+6. Test RMSE:
+
+
+
+Prints: "RMSE: X" where X is the RMSE calculated on the held-out test set
+Displays full precision (e.g., 28.68000335761125)
+
+
+7. Standard Deviation of Label:
+
+
+
+Prints: "Standard Deviation of Label: X" where X is the standard deviation of the target variable
+Displays full precision (e.g., 32.56115752843926)
+
+
+8. Performance Interpretation:
+
+
+
+If RMSE ≤ Standard Deviation:
+Prints: "The model's RMSE is within the standard deviation, indicating good performance."
+If RMSE > Standard Deviation:
+Prints: "The model's RMSE exceeds the standard deviation, suggesting room for improvement."
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+File must be a comma-separated CSV file with .csv extension
+File must exist in the same directory as the Python script
+File must contain exactly 6 columns: bmi, age, insulin, FamilyHistory, bp, Fasting blood
+File must contain at least 10 rows of data
+
+
+Column Data Type Constraints
+
+
+
+bmi, age, insulin, bp: Float values (standardized z-scores)
+FamilyHistory: Integer values (1 or -1)
+Fasting blood: Integer/float values (glucose level in mg/dL) - TARGET VARIABLE
+
+
+Feature and Target Selection Constraints
+
+
+
+Features (X): 5 columns - bmi, age, insulin, FamilyHistory, bp
+Target (y): Single column - Fasting blood
+No scaling required: Features are pre-standardized in the CSV
+
+
+Train-Test Split Constraints
+
+
+
+Split Ratio: 70% training, 30% testing
+Split Function: Uses split_data() from ML_Modules.py
+Random State: 42
+Test Size Parameter: 0.3
+
+
+Hyperparameter Search Grid
+
+
+
+max_depth: [3, 5, 10, None]
+None allows unlimited depth
+min_samples_split: [2, 5, 10]
+min_samples_leaf: [1, 2, 4]
+Total Combinations: 4 × 3 × 3 = 36 configurations
+
+
+GridSearchCV Configuration
+
+
+
+Base Estimator: DecisionTreeRegressor(random_state=42)
+Cross-Validation: 5-fold CV (applied to training set during tuning)
+Scoring Metric: 'neg_mean_squared_error'
+Parallel Processing: n_jobs=-1
+Refit: True (automatically refits best model on entire training set)
+
+
+Model Constraints
+
+
+
+Model Type: DecisionTreeRegressor from sklearn.tree
+Fixed Parameter: random_state=42
+Tuned Parameters: max_depth, min_samples_split, min_samples_leaf
+
+
+Cross-Validation on Full Dataset
+
+
+
+Applied After: Hyperparameter tuning is complete
+Dataset: Entire dataset (not just training set)
+Purpose: Assess expected performance across different data splits
+Folds: 5
+Scoring: 'neg_mean_squared_error'
+Conversion: RMSE = sqrt(-neg_mse)
+
+
+RMSE Calculation
+
+
+
+Formula: RMSE = sqrt(MSE) = sqrt((1/n) × Σ(actual - predicted)²)
+Units: Same as target variable (mg/dL for glucose)
+Interpretation: Average prediction error magnitude
+Lower is better: RMSE of 0 means perfect predictions
+
+
+Standard Deviation Calculation
+
+
+
+Applied To: Entire target variable (y_DT_reg)
+Method: Uses pandas .std() method
+Purpose: Baseline reference for RMSE
+Interpretation:
+RMSE < Std Dev: Model captures meaningful patterns
+RMSE ≈ Std Dev: Model barely better than predicting mean
+RMSE > Std Dev: Model performs poorly
+
+
+Program Processing Constraints
+
+
+
+If CSV file not found: prints Error: File '{filename}' not found. and exits
+Data preview displayed before any model training
+GridSearchCV runs on training set only
+Cross-validation RMSE scores calculated on full dataset with best model
+Final RMSE calculated on test set only
+All warnings suppressed
+
+
+ML_Modules.py Requirements
+
+split_data(X, y, test_size) function:
+Uses train_test_split from sklearn.model_selection
+Returns: (X_train, X_test, y_train, y_test)
+random_state=42
+test_size determines test proportion
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+        bmi       age   insulin  FamilyHistory        bp  Fasting blood
+0 -0.710421 -0.968299 -0.522842              1 -0.373655             89
+1  1.426730  0.209585  0.100631             -1 -2.456964            137
+2 -0.297238 -0.477514 -0.573394             -1 -1.655691             78
+3 -0.368477  2.172726  3.260122             -1 -0.053146            197
+4 -0.425468  2.761668  5.812990              1 -0.854419            189
+
+Best Hyperparameters: {'max_depth': 5, 'min_samples_leaf': 2, 'min_samples_split': 2}
+Cross-Validation RMSE Scores: [27.15883461 36.67729013 24.89016804 34.06312492 29.42564783]
+Mean RMSE: 30.44301310338263
+RMSE: 28.68000335761125
+Standard Deviation of Label: 32.56115752843926
+The model's RMSE is within the standard deviation, indicating good performance.

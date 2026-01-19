@@ -22,7 +22,7 @@ This git repo consists of the following related to the course "Advanced ML techn
 
 ### Ongoing
 
-None
+- Day 4
 
 ### Problamitic Questions
 
@@ -32,7 +32,6 @@ concept 1 - sample testcases are passing, hidden is not passing. The logic is im
 
 ### Yet to Start
 
-- Day 4
 - Day 6
 - Day 7
 - Day 8

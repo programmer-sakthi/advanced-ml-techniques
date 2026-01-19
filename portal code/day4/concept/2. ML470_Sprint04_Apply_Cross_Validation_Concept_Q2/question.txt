@@ -1,0 +1,228 @@
+Problem Statement
+
+
+
+After evaluating different cross-validation strategies, the healthcare organization now aims to optimize the performance of its diabetes classification model by tuning key hyperparameters of a Decision Tree classifier. Although cross-validation provides reliable performance estimates, model accuracy can still be improved by selecting an appropriate combination of model hyperparameters rather than relying on defaults.
+
+
+
+Decision Tree classifiers allow control over model complexity through parameters that govern tree depth and node splitting behavior. Adjusting these parameters helps balance model accuracy and generalization, preventing both underfitting and overfitting.
+
+
+
+To perform this optimization in a structured and reproducible way, an automated hyperparameter search approach is required. GridSearchCV, combined with Stratified K-Fold Cross-Validation, enables systematic evaluation of multiple hyperparameter combinations while preserving class distribution across folds. This ensures that the selected model configuration is both accurate and reliable for imbalanced medical datasets.
+
+
+
+In this task, hyperparameter tuning is performed on the same diabetes dataset using stratified cross-validation to identify the best-performing Decision Tree configuration for accurate diabetes prediction.
+
+
+
+Tasks to be Performed
+
+
+
+The data scientist is required to perform the following tasks:
+
+
+
+Load and prepare the diabetes dataset
+
+Read patient medical data from a CSV file containing five numerical features and a binary target variable indicating diabetes presence.
+
+
+Extract features and target variables
+
+Separate the feature columns (Fasting blood, bmi, age, FamilyHistory, HbA1c) and the target column, and convert them into NumPy arrays suitable for model training.
+
+
+Configure Stratified K-Fold Cross-Validation
+
+Set up 5-fold stratified cross-validation to ensure that each fold preserves the original class distribution between diabetic and non-diabetic cases.
+
+
+Define the hyperparameter search grid
+
+Specify multiple values for key Decision Tree parameters:
+max_depth: [2, 3, 4, 5, 6]
+min_samples_split: [2, 4, 6]
+min_samples_leaf: [1, 2, 3]
+
+
+Execute GridSearchCV for hyperparameter tuning
+
+Use GridSearchCV with the defined hyperparameter grid and stratified cross-validation to train and evaluate all parameter combinations using accuracy as the evaluation metric.
+
+
+Identify the best-performing model configuration
+
+Determine the set of hyperparameters that achieves the highest mean cross-validated accuracy.
+
+
+Report optimization results
+
+Display the optimal hyperparameters and the corresponding stratified cross-validation accuracy score.
+
+
+This task enables the healthcare organization to deploy a tuned and high-performing diabetes classification model, ensuring accurate predictions and dependable clinical decision support through systematic and reproducible hyperparameter optimization.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+Fasting blood,bmi,age,FamilyHistory,HbA1c,target
+
+0.852118731445706,0.180000137737896,1.44481456852605,-1.04628271556561,1.585135972855,1
+
+-1.20799440495824,-0.862606293877734,-0.1964249413404,-1.04628271556561,-0.982955053903268,0
+
+1.9966260294479,-1.35412075449653,-0.110043914505323,0.955764618035768,1.585135972855,1
+
+-1.07719357090084,-0.639190629960099,-1.06023520969116,0.955764618035768,-0.982955053903268,0
+
+0.492416437787874,1.59496600921625,-0.0236628876702468,-1.04628271556561,0.30109045947587,1
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing patient diabetes data.
+Input must include the file extension .csv.
+Output format :
+The program generates the following outputs:
+
+
+
+1. Best Hyperparameters:
+
+
+
+Prints: "Best Hyperparameters: " followed by a dictionary containing optimal hyperparameter values
+Dictionary format: {'max_depth': value, 'min_samples_leaf': value, 'min_samples_split': value}
+Keys are ordered alphabetically: max_depth, min_samples_leaf, min_samples_split
+Values are integers representing the optimal configuration
+
+
+2. Best Stratified CV Accuracy:
+
+
+
+Prints: "Best Stratified CV Accuracy: X" where X is the highest cross-validated accuracy achieved
+Value displayed with 3 decimal places
+Represents the mean accuracy across 5 stratified folds using the best hyperparameters
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+File must be a comma-separated CSV file with .csv extension
+File must exist in the same directory as the Python script
+File must contain exactly 6 columns: Fasting blood, bmi, age, FamilyHistory, HbA1c, target
+File must contain at least 10 rows of data (minimum for 5-fold cross-validation)
+
+
+Column Data Type Constraints
+
+
+
+Fasting blood, bmi, age, FamilyHistory, HbA1c: Float values (standardized)
+target: Integer values (0 or 1) - TARGET VARIABLE
+
+
+Feature and Target Selection Constraints
+
+
+
+Features (X): 5 columns - Fasting blood, bmi, age, FamilyHistory, HbA1c
+Target (y): Single column - target
+Conversion: Features and target converted to numpy arrays using .values
+Target Flattening: Target array flattened using .ravel() for compatibility with GridSearchCV
+
+
+Stratified K-Fold Configuration
+
+
+
+Method: StratifiedKFold from sklearn.model_selection
+Number of Folds: 5
+Shuffle: True
+Random State: 42
+Purpose: Maintains class distribution across all folds
+
+
+Hyperparameter Search Grid
+
+
+
+max_depth: [2, 3, 4, 5, 6] - Controls maximum tree depth
+min_samples_split: [2, 4, 6] - Minimum samples to split internal node
+min_samples_leaf: [1, 2, 3] - Minimum samples at leaf node
+Total Combinations: 5 × 3 × 3 = 45 configurations
+
+
+GridSearchCV Configuration
+
+
+
+Base Estimator: DecisionTreeClassifier(random_state=42)
+Parameter Grid: param_grid defined above
+Cross-Validation: Stratified K-Fold (5 folds)
+Scoring Metric: 'accuracy'
+Parallel Processing: n_jobs=-1 (uses all CPU cores)
+Refit: True (default - refits best model on entire dataset)
+
+
+Model Constraints
+
+
+
+Model Type: DecisionTreeClassifier from sklearn.tree
+Fixed Parameter: random_state=42 (for reproducibility)
+Tuned Parameters: max_depth, min_samples_split, min_samples_leaf
+
+
+Accuracy Calculation
+
+
+
+Metric: accuracy_score (fraction of correct predictions)
+Range: 0.0 to 1.0
+Display Format: 3 decimal places
+
+
+Program Processing Constraints
+
+
+
+If CSV file not found: prints Error: File '{filename}' not found. and exits
+All warnings suppressed using warnings.filterwarnings("ignore")
+GridSearchCV automatically identifies and returns best hyperparameters
+Best score represents mean accuracy across all 5 stratified folds
+
+
+Output Constraints
+
+
+
+Best hyperparameters dictionary keys ordered alphabetically
+Best accuracy displayed with exactly 3 decimal places
+No intermediate results or progress indicators shown
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+Best Hyperparameters: {'max_depth': 2, 'min_samples_leaf': 1, 'min_samples_split': 2}
+Best Stratified CV Accuracy: 0.700

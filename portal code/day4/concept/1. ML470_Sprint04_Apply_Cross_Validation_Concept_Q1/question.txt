@@ -1,0 +1,268 @@
+Problem Statement
+
+
+
+A healthcare organization aims to build a reliable diabetes classification model to predict whether patients are at risk of developing diabetes using key medical indicators. Since model performance can vary widely based on how data is split for training and evaluation, selecting an appropriate validation strategy is critical to ensure trustworthy and reproducible results.
+
+
+
+Cross-validation techniques are widely used in machine learning to evaluate how well a model generalizes to unseen data. Each strategy differs in how the dataset is divided, the amount of data used for training and testing, and its sensitivity to class distribution and randomness. As a result, different validation methods may produce different accuracy estimates even when applied to the same dataset and model.
+
+
+
+This task focuses on systematically applying and comparing multiple cross-validation strategies for a diabetes classification problem using a Decision Tree model. By evaluating the same dataset with different validation approaches, the data science team can better understand how validation choice affects performance estimation, computational cost, and result stability.
+
+
+
+The data scientist is required to perform the following tasks:
+
+
+
+Load and prepare the diabetes dataset
+
+Import patient data containing medical features such as fasting blood sugar, BMI, age, family history, and HbA1c levels, along with the target variable indicating diabetes presence.
+
+
+Implement K-Fold Cross-Validation
+
+Apply 5-fold cross-validation by dividing the dataset into five folds of approximately equal size. Train the Decision Tree Classifier on four folds and validate on the remaining fold. Repeat this process for all folds, record the accuracy for each iteration, and compute the mean cross-validated accuracy.
+
+
+Implement the Hold-Out Method
+
+Split the dataset into a fixed training set (70%) and testing set (30%) using a single split. Train the classifier on the training data and evaluate its accuracy on the test data.
+
+
+Implement Leave-One-Out Cross-Validation (LOOCV)
+
+Train the classifier multiple times such that each individual sample is used once as the test set while all remaining samples are used for training. Calculate the overall accuracy based on predictions across all iterations.
+
+
+Implement Stratified K-Fold Cross-Validation
+
+Perform 5-fold cross-validation while ensuring that each fold preserves the original class distribution of the dataset. This approach is particularly important when dealing with imbalanced classification problems such as medical diagnoses.
+
+
+Compare results across all methods
+
+﻿Analyze accuracy scores from all four validation strategies to understand their differences, strengths, and appropriate use cases.
+
+
+By completing this task, the healthcare organization gains practical insights into how different validation strategies influence model evaluation. This comparison helps ensure that the chosen validation approach provides a consistent and reliable estimate of model performance before deploying the diabetes prediction system in real-world clinical settings.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+Fasting blood,bmi,age,FamilyHistory,HbA1c,target
+
+0.852118731445706,0.180000137737896,1.44481456852605,-1.04628271556561,1.585135972855,1
+
+-1.20799440495824,-0.862606293877734,-0.1964249413404,-1.04628271556561,-0.982955053903268,0
+
+1.9966260294479,-1.35412075449653,-0.110043914505323,0.955764618035768,1.585135972855,1
+
+-1.07719357090084,-0.639190629960099,-1.06023520969116,0.955764618035768,-0.982955053903268,0
+
+0.492416437787874,1.59496600921625,-0.0236628876702468,-1.04628271556561,0.30109045947587,1
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing patient diabetes data.
+Input must include the file extension .csv.
+Output format :
+The program generates the following outputs in sequence:
+
+
+
+1. Data Preview:
+
+
+
+Displays the first 5 rows of the dataset using .head()
+Shows all columns in tabular format with column names and row indices
+Format includes:
+Column headers: Fasting blood, bmi, age, FamilyHistory, HbA1c, target
+Row indices (0-4)
+Target values as integers (0 or 1)
+
+
+2. Blank Line:
+
+
+
+A single blank line separates data preview from validation results
+
+
+3. K-Fold Cross-Validation Results:
+
+
+
+Prints: "K-Fold Accuracy Scores: " followed by a numpy array of accuracy scores
+Array contains 5 accuracy values (one for each fold)
+Values are rounded to 3 decimal places
+Next line prints: "Mean CV Accuracy: X" where X is the average of all fold accuracies
+Mean accuracy displayed with 3 decimal places
+
+
+4. Hold-Out Method Results:
+
+
+
+Prints: "Hold-Out Method Accuracy: X" where X is the accuracy on the test set
+Value displayed with 3 decimal places
+
+
+5. Leave-One-Out Cross-Validation Results:
+
+
+
+Prints: "LOOCV Accuracy: X" where X is the overall LOOCV accuracy
+Value displayed with 3 decimal places
+
+
+6. Stratified K-Fold Cross-Validation Results:
+
+
+
+Prints: "Accuracy: X" where X is the overall stratified cross-validation accuracy
+Value displayed with 3 decimal places
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Requirements
+
+
+
+Input file must be a .csv file.
+File must be located in the same directory as main.py.
+CSV must contain exactly the following columns (case-sensitive): Fasting blood, bmi, age, FamilyHistory, HbA1c, target
+Dataset must contain a minimum of 5 rows (required for 5-fold validation).
+
+
+Data Type Constraints
+
+
+
+Feature columns must contain numeric values (int or float).
+target column must contain binary values:
+0 → No Diabetes
+1 → Diabetes
+
+
+Feature and Target Selection
+
+
+
+Features (X) must include exactly 5 columns: Fasting blood, bmi, age, FamilyHistory, HbA1c
+Target (y) must include only the target column.
+Features and target must be converted to NumPy arrays using .values.
+
+
+Model Constraints
+
+
+
+Classifier used must be: DecisionTreeClassifier from sklearn.tree
+Hyperparameters must be fixed across all validation methods:
+max_depth = 4
+random_state = 42
+
+
+Cross-Validation Method Constraints
+
+
+
+K-Fold Cross-Validation
+
+KFold with:
+n_splits = 5
+shuffle = True
+random_state = 42
+
+
+Hold-Out Method
+
+
+
+Data split ratio: 70% train / 30% test
+Must use split_data() from ML_Modules.py
+random_state = 42
+
+
+Leave-One-Out Cross-Validation
+
+
+
+Must use LeaveOneOut from sklearn.model_selection
+Classifier trained once per sample
+
+
+Stratified K-Fold Cross-Validation
+
+
+
+Must use StratifiedKFold with:
+n_splits = 5
+shuffle = True
+random_state = 42
+Target array must be flattened using .ravel() before fitting.
+
+
+Evaluation Constraints
+
+
+
+Metric used: accuracy_score from sklearn.metrics
+Accuracy values must be displayed in 3 decimal format (e.g., 0.742)
+
+
+Program Execution Constraints
+
+
+
+Program must read the CSV filename from standard input.
+If the file is not found, the program must print: Error: File '{filename}' not found. and exit.
+df.head() must be printed before performing any validation.
+All warnings must be suppressed using warnings.filterwarnings("ignore").
+
+
+ML_Modules.py Requirement
+
+
+
+ML_Modules.py must exist in the same directory as main.py.
+It must contain the function: split_data(X, y, test_size)
+Internally, it must use:
+train_test_split
+random_state = 42
+Must return: (X_train, X_test, y_train, y_test)
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+   Fasting blood       bmi       age  FamilyHistory     HbA1c  target
+0       0.852119  0.180000  1.444815      -1.046283  1.585136       1
+1      -1.207994 -0.862606 -0.196425      -1.046283 -0.982955       0
+2       1.996626 -1.354121 -0.110044       0.955765  1.585136       1
+3      -1.077194 -0.639191 -1.060235       0.955765 -0.982955       0
+4       0.492416  1.594966 -0.023663      -1.046283  0.301090       1
+
+K-Fold Accuracy Scores: [0.5 0.6 0.7 0.6 0.7]
+Mean CV Accuracy: 0.620
+Hold-Out Method Accuracy: 0.600
+LOOCV Accuracy: 0.640
+Accuracy: 0.600
