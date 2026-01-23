@@ -1,0 +1,245 @@
+Problem Statement
+
+
+
+A real estate analytics firm is developing an intelligent property classification system to help buyers, sellers, and agents make informed decisions in a competitive housing market. The firm needs to categorize residential properties into distinct price range segments based on various physical and quality attributes of the houses.
+
+
+
+The company has collected historical housing data containing key property features such as number of bedrooms, living area size, number of floors, construction grade, above-ground square footage, and neighborhood characteristics. Each property has been labeled into one of four price range categories: Low-Range, Mid-Range, Upper-Mid-Range, and Premium.
+
+
+
+To build this classification system, the data science team will implement an AdaBoost (Adaptive Boosting) classifier with Decision Trees as base estimators. 
+
+
+
+Your task is to:
+
+
+
+Load and explore housing data – Import the preprocessed housing dataset and examine its structure to understand the available features and target variable.
+
+
+Prepare features and target – Separate the feature variables (property attributes) from the target variable (encoded price range category).
+
+
+Build an AdaBoost classifier – Implement a multi-class classification model using AdaBoost with Decision Tree base estimators, configured with appropriate hyperparameters for optimal performance.
+
+
+Train and evaluate the model – Split the data into training and test sets, train the AdaBoost classifier, generate predictions, and compute comprehensive evaluation metrics including confusion matrix, classification report, accuracy, recall, F1-score, and precision.
+
+
+The implementation will be done in a custom module (ML_Modules.py) that contains the function for building, training, and evaluating the AdaBoost classifier. The main program will orchestrate the workflow by loading data, preparing inputs, and invoking the classification function.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Price Range Categories:
+
+
+
+0 = Premium (highest price range)
+1 = Low-Range (lowest price range)
+2 = Mid-Range (moderate price range)
+3 = Upper-Mid-Range (above moderate price range)
+
+
+Sample Data
+
+
+
+price,bedrooms,floors,grade,sqft_above,sqft_living15,sqft_lot15,price_range.enc
+
+-1.15863488171729,-0.424771277993518,-0.915427004156551,-0.597873914410018,-0.771667607790066,-0.978626217288311,-0.606904274193569,1
+
+0.10555191662706,-0.424771277993518,0.936505774505455,-0.597873914410018,0.52412415473989,-0.439321782295566,-0.1510648120844,3
+
+-1.32620662120046,-1.59561449075642,-0.915427004156551,-1.59666416848876,-1.30830864075702,1.14777412639737,-0.0541215780611835,1
+
+0.369507401254479,0.746071934769382,-0.915427004156551,-0.597873914410018,-0.941822081657636,-0.947808821003011,-0.75587141867369,3
+
+-0.00642919806336036,-0.424771277993518,-0.915427004156551,0.400916339668723,-0.117227323684028,-0.269826102726418,-0.182233322314087,3
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing housing data.
+Input must include the file extension .csv.
+Output format :
+The program generates the following outputs in sequence:
+
+
+
+1. First 5 Rows of Data:
+
+
+
+Displays the first 5 rows of the DataFrame showing all feature columns and the target variable
+Shows in tabular format with column names and row indices
+Includes a summary line: [5 rows x 8 columns] indicating the dimensions of the preview
+Followed by a blank line
+
+
+2. Confusion Matrix:
+
+
+
+Prints the heading: Confusion Matrix
+Displays a 4×4 confusion matrix (for 4 price range classes: 0, 1, 2, 3) showing:
+Each row represents the actual class
+Each column represents the predicted class
+Diagonal elements show correct predictions for each class
+Off-diagonal elements show misclassifications
+Format: 4×4 array with proper alignment
+Followed by: ===================
+
+
+3. Classification Report:
+
+
+
+Prints a blank line followed by the heading: Classification Report:
+Displays a detailed classification report table containing:
+Per-class metrics (for classes 0, 1, 2, and 3):
+precision: Proportion of positive predictions that are correct for each class
+recall: Proportion of actual positives correctly identified for each class
+f1-score: Harmonic mean of precision and recall for each class
+support: Number of actual occurrences of each class in the test set
+
+
+Overall metrics:
+accuracy: Overall correctness of predictions across all classes
+macro avg: Unweighted mean of per-class metrics
+weighted avg: Weighted mean of per-class metrics (weighted by support)
+All metrics displayed with 2 decimal precision
+Followed by: ===================
+
+
+4. Aggregated Performance Metrics:
+
+
+
+Prints four lines showing performance metrics computed on the test set:
+accuracy: X.XXX – Overall accuracy (3 decimal places)
+recall: X.XXX – Weighted average recall (3 decimal places)
+f1-score: X.XXX – Weighted average F1-score (3 decimal places)
+precision: X.XXX – Weighted average precision (3 decimal places)
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+Input must be a comma-separated file with .csv extension
+CSV file must be present in the same directory as main.py
+CSV file must contain exactly 8 columns with the following case-sensitive names: price, bedrooms, floors, grade, sqft_above, sqft_living15, sqft_lot15, price_range.enc
+The first 7 columns are feature columns and must contain numeric values only
+The last column price_range.enc is the target variable
+Dataset must contain a minimum of 10 rows and at least one sample per class
+
+
+Target Variable Constraints
+
+
+
+The price_range.enc column must contain integer class labels only: 0, 1, 2, 3
+Class label meaning:
+0 → Premium price range
+1 → Low-range price
+2 → Mid-range price
+3 → Upper-mid-range price
+Each row must belong to exactly one price range (mutually exclusive classes)
+
+
+ML_Modules.py – Model Implementation Constraints
+
+
+
+Function: model_adaboost_classifier(X_cls, y_cls)
+
+
+Input Parameters
+X_cls: 2D NumPy array of shape (n_samples, 7)
+y_cls: 1D NumPy array of shape (n_samples,)
+
+
+Train–Test Split Configuration
+Must use train_test_split from sklearn.model_selection
+test_size = 0.3
+random_state = 42
+stratify = y_cls
+
+
+Base Estimator Configuration
+Must use DecisionTreeClassifier
+max_depth = 2
+random_state = 42
+
+
+AdaBoost Configuration
+
+
+
+Must use AdaBoostClassifier
+n_estimators = 50
+learning_rate = 1.0
+random_state = 42
+
+
+Program Processing Constraints
+
+
+
+If the CSV file is not found, print: Error: File '{filename}' not found. and terminate using sys.exit(1)
+Features (X) must be created by dropping price_range.enc
+Target (y) must be extracted from price_range.enc
+Both X and y must be converted using .values
+A blank line must be printed between data preview and confusion matrix output
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+      price  bedrooms    floors  ...  sqft_living15  sqft_lot15  price_range.enc
+0 -1.158635 -0.424771 -0.915427  ...      -0.978626   -0.606904                1
+1  0.105552 -0.424771  0.936506  ...      -0.439322   -0.151065                3
+2 -1.326207 -1.595614 -0.915427  ...       1.147774   -0.054122                1
+3  0.369507  0.746072 -0.915427  ...      -0.947809   -0.755871                3
+4 -0.006429 -0.424771 -0.915427  ...      -0.269826   -0.182233                3
+
+[5 rows x 8 columns]
+
+Confusion Matrix
+[[4 0 0 0]
+ [0 5 0 0]
+ [0 0 2 0]
+ [1 0 0 3]]
+===================
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.80      1.00      0.89         4
+           1       1.00      1.00      1.00         5
+           2       1.00      1.00      1.00         2
+           3       1.00      0.75      0.86         4
+
+    accuracy                           0.93        15
+   macro avg       0.95      0.94      0.94        15
+weighted avg       0.95      0.93      0.93        15
+
+===================
+accuracy: 0.933
+recall: 0.933
+f1-score: 0.932
+precision: 0.947

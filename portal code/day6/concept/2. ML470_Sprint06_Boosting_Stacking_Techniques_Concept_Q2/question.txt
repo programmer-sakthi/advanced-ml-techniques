@@ -1,0 +1,223 @@
+Problem Statement
+
+
+
+A healthcare analytics company has successfully preprocessed patient health data for diabetes prediction and now needs to advance their predictive modeling capabilities. While individual machine learning algorithms can provide reasonable predictions, ensemble methods that combine multiple models often achieve superior performance by leveraging the strengths of different algorithms.
+
+
+
+The data science team has decided to implement a Stacking Classifier, an advanced ensemble learning technique that combines predictions from multiple base models (also called level-0 models) and uses a meta-model (level-1 model) to make the final prediction. This approach can capture different patterns in the data and produce more robust and accurate predictions than any single model alone.For this diabetes classification task, the team will stack three diverse base models:
+
+
+
+Logistic Regression – A linear model effective for capturing linear relationships
+k-Nearest Neighbors (KNN) – An instance-based model that captures local patterns
+Decision Tree – A tree-based model that captures non-linear relationships and interactions
+
+
+These base models will be combined using Logistic Regression as the meta-learner, which learns how to optimally combine the predictions from the base models.Your task is to:
+
+
+
+Implement a stacking classifier – Create a function that builds an ensemble model combining Logistic Regression, k-Nearest Neighbors, and Decision Tree classifiers with Logistic Regression as the final estimator.
+
+
+Train using Repeated K-Fold Cross-Validation – Implement a robust evaluation strategy using Repeated K-Fold cross-validation to assess model performance across multiple data splits, ensuring reliable performance estimates.
+
+
+Evaluate comprehensive metrics – Calculate and display the confusion matrix, classification report, and key performance metrics (accuracy, recall, F1-score, precision) to thoroughly assess the stacking classifier's effectiveness.
+
+
+Compare and interpret results – Provide a complete evaluation that enables comparison with individual base models and interpretation of the ensemble's performance on diabetes prediction.
+
+
+The implementation will be done in a custom module (ML_Modules.py) containing reusable functions for building the stacking classifier and evaluating its performance. The main program will load patient data, prepare features and target variables, train the stacking model, and generate comprehensive evaluation metrics.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+Fasting Blood Sugar Level,BMI,HbA1c Level,Age,Family History of Diabetes,Physical Activity Level,Dietary Habits,BP_Upper value,BP_Lower value,Cholesterol Levels,Medications Used,Number of Doctor Visits,Stress Level,Hours of Sleep,Comorbidities,Geographical Location,Insurance Coverage,Lab Test Frequency,Recent Hospitalization,Diabetic
+
+0.451606855329901,-0.686126627490211,-1.07091585770892,0.068240691802013,1.2108225490864,-1.31756528458469,-0.389490077359283,1.04426873302837,0.230479097549227,-1.10369122472611,-1.62388116069522,1.3661029840265,-0.414795285381972,1.2346171798977,-0.931359159695469,-1.52570869487941,-1.2108225490864,0.109046876787852,-1.41556778881054,1
+
+-0.237949151380741,-0.147340043194588,-0.0908541938405148,0.211352943047059,1.2108225490864,-1.07052951359291,0.895955722506338,-0.277050888354467,0.299900512473693,0.428943014933993,-1.62388116069522,-1.38282563311411,0.871391646034995,-0.134675461877452,0.889479862192056,-1.52570869487941,-1.2108225490864,1.26757943230288,-0.702973885558317,0
+
+0.615557763289342,-0.805163813460941,-0.0328948501538873,-1.4105859043968,-0.825884850554304,-0.576457971609333,-1.67493587722491,-1.34263122817934,0.994114661718355,0.777948525756007,1.2141416215138,-1.15374824835239,-0.414795285381972,-0.512700799167024,0.889479862192056,0.655433113382789,0.825884850554304,0.398680015666609,1.43480782419835,1
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing patient health data.
+Input must include the file extension .csv.
+Output format :
+The program generates the following outputs in sequence:
+
+
+
+1. Stacking Classifier Accuracy:
+
+
+
+Prints: Accuracy: X.XXX where X.XXX is the overall accuracy across all repeated K-fold iterations (3 decimal places)
+Followed by a blank line
+
+
+2. Confusion Matrix:
+
+
+
+Prints the heading: Confusion Matrix
+Displays a 2×2 confusion matrix with aggregated predictions from all cross-validation folds:
+Row 1: [True Negatives, False Positives] – Actual class 0 predictions
+Row 2: [False Negatives, True Positives] – Actual class 1 predictions
+Each value represents the count across all repeated folds
+Followed by: =================== and a blank line
+
+
+3. Classification Report:
+
+
+
+Prints the heading: Classification Report:
+Displays a detailed classification report table containing:
+Per-class metrics (for classes 0 and 1):
+precision: Proportion of positive predictions that are correct
+recall: Proportion of actual positives correctly identified
+f1-score: Harmonic mean of precision and recall
+support: Total number of actual occurrences of each class across all folds
+Overall metrics:
+accuracy: Overall correctness of predictions
+macro avg: Unweighted mean of per-class metrics
+weighted avg: Weighted mean of per-class metrics (weighted by support)
+All metrics displayed with 2 decimal precision
+Followed by: ===================
+
+
+4. Aggregated Performance Metrics:
+
+
+
+Prints four lines showing performance metrics computed from concatenated predictions across all folds:
+accuracy: X.XXX – Overall accuracy (3 decimal places)
+recall: X.XXX – Weighted average recall (3 decimal places)
+f1-score: X.XXX – Weighted average F1-score (3 decimal places)
+precision: X.XXX – Weighted average precision (3 decimal places)
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+Input must be a comma-separated .csv file
+CSV file must be present in the same directory as main.py
+CSV must contain exactly 20 columns
+The last column must be named Diabetic (case-sensitive)
+Diabetic column must contain binary values only (0 or 1)
+Dataset must contain samples from both classes (0 and 1) to support cross-validation
+Feature columns (first 19 columns) must contain numeric, normalized/standardized values.
+CSV must not contain missing values.
+CSV should have sufficient number of rows (minimum 50+) to allow repeated K-Fold cross-validation.
+
+
+Data Handling Constraints
+
+
+
+First 19 columns are treated as feature columns
+Feature values must be numeric
+Features (X) and target (y) must be converted to NumPy arrays using .values
+Feature matrix shape: (n_samples, 19)
+Target array shape: (n_samples,)
+
+
+Model Construction Constraints (ML_Modules.py)
+
+
+
+get_stacking_cls()
+
+Must return a StackingClassifier
+Base estimators (Level-0) must include:
+Logistic Regression
+K-Nearest Neighbors
+Decision Tree with random_state=42
+Meta-learner (Level-1) must be:
+Logistic Regression
+Internal cross-validation must use cv=5
+
+
+model_stack_classifier(X_cls, y_cls)
+
+Must use RepeatedKFold with:
+n_splits=5
+n_repeats=3
+random_state=42
+Must train the stacking classifier on each fold
+Must collect predictions and true labels per fold
+Must compute and print overall accuracy in the format: Accuracy: X.XXX
+Must return: (y_true_st, y_pred_st)
+
+
+evaluate_multilabel_classifier(y_true, y_pred)
+
+
+
+Must concatenate fold outputs using np.concatenate
+Must print:
+Confusion Matrix
+Classification Report
+Must print the following metrics (3 decimal places):
+accuracy
+recall
+f1-score
+precision
+All metrics must be printed in lowercase
+
+
+Program Execution Constraints
+
+
+
+If the CSV file is missing, print: Error: File '{filename}' not found. and terminate using sys.exit(1)
+All warnings must be suppressed using: warnings.filterwarnings("ignore")
+All outputs must be displayed using print() only
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+Accuracy: 0.900
+
+Confusion Matrix
+[[  0  15]
+ [  0 135]]
+===================
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        15
+           1       0.90      1.00      0.95       135
+
+    accuracy                           0.90       150
+   macro avg       0.45      0.50      0.47       150
+weighted avg       0.81      0.90      0.85       150
+
+===================
+accuracy: 0.900
+recall: 0.900
+f1-score: 0.853
+precision: 0.810

@@ -1,0 +1,168 @@
+Problem Statement
+
+
+
+A real estate analytics firm wants to predict continuous house prices using property features rather than categorizing properties into price ranges. The dataset includes key attributes such as bedrooms, floors, construction grade, above-ground square footage, and neighborhood characteristics. Accurate price prediction helps buyers, sellers, agents, and investors make informed decisions.
+
+
+
+Your tasks are:
+
+
+
+1. Load and prepare housing data
+
+
+
+Import the CSV dataset
+Separate features (bedrooms, floors, grade, sqft_above, sqft_living15, sqft_lot15) and the target variable (price)
+
+
+2. Implement AdaBoost Regression
+
+
+
+Use DecisionTreeRegressor as base learners
+Train using Repeated K-Fold Cross-Validation (10 folds × 3 repeats)
+Compute and display R-squared performance
+
+
+3. Implement Stacking Regression
+
+
+
+Combine base models: Linear Regression, k-Nearest Neighbors (KNN), and Decision Tree
+Use Linear Regression as the meta-learner
+Train using the same cross-validation strategy
+Compute and display R-squared performance
+
+
+4. Compare performance
+
+
+
+Display R-squared scores of both models
+Determine which ensemble predicts house prices more accurately
+
+
+All model-building functions will reside in a custom module (ML_Modules.py), and the main program will orchestrate data loading, model training, and evaluation.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+price,bedrooms,floors,grade,sqft_above,sqft_living15,sqft_lot15
+
+-1.15863488171729,-0.424771277993518,-0.915427004156551,-0.597873914410018,-0.771667607790066,-0.978626217288311,-0.606904274193569
+
+0.10555191662706,-0.424771277993518,0.936505774505455,-0.597873914410018,0.52412415473989,-0.439321782295566,-0.1510648120844
+
+-1.32620662120046,-1.59561449075642,-0.915427004156551,-1.59666416848876,-1.30830864075702,1.14777412639737,-0.0541215780611835
+
+0.369507401254479,0.746071934769382,-0.915427004156551,-0.597873914410018,-0.941822081657636,-0.947808821003011,-0.75587141867369
+
+-0.00642919806336036,-0.424771277993518,-0.915427004156551,0.400916339668723,-0.117227323684028,-0.269826102726418,-0.182233322314087
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing housing data.
+Input must include the file extension .csv.
+Output format :
+The program generates the following outputs in sequence:
+
+
+
+1. AdaBoost Regressor Performance:
+
+
+
+Prints the heading: === AdaBoost Regressor Performance ===
+Prints: R-squared: X.XXX where X.XXX is the R² score computed across all 30 cross-validation folds (3 decimal places)
+R-squared interpretation:
+1.0 = Perfect predictions (model explains 100% of variance)
+0.0 to 1.0 = Positive predictive power (higher is better)
+0.0 = Model performs no better than predicting the mean price
+Negative = Model performs worse than baseline (rare but possible)
+
+
+2. Blank Line:
+
+
+
+A single blank line separates the two model performance sections
+
+
+3. Stacking Regressor Performance:
+
+
+
+Prints the heading: === Stacking Regressor Performance ===
+Prints: R-squared: X.XXX where X.XXX is the R² score computed across all 30 cross-validation folds (3 decimal places)
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+Must exist in the same directory as the Python script
+Must contain 7 columns: price, bedrooms, floors, grade, sqft_above, sqft_living15, sqft_lot15
+'price' is the continuous target variable; all others are numeric features
+Column order must have price first
+
+
+Regression Models
+
+
+
+AdaBoost Regressor:
+Base learner: DecisionTreeRegressor(random_state=42)
+n_estimators=50, learning_rate=1.0, random_state=42
+
+
+Stacking Regressor:
+Base learners: Linear Regression, KNN, Decision Tree (random_state=42)
+Meta-learner: Linear Regression
+Internal CV: 5-fold
+Cross-validation: RepeatedKFold with 10 splits, 3 repeats, random_state=42
+Evaluate both models using R-squared
+
+
+Program Behavior
+
+
+
+Print R-squared for AdaBoost first, then a blank line, then Stacking
+Handle missing file or missing price column with appropriate error messages and exit
+All inputs and outputs must follow the exact formats specified
+
+
+Implementation
+
+
+
+All feature and target arrays must be converted to numpy arrays before processing
+Evaluation must concatenate predictions across folds for R-squared computation
+No additional output beyond what’s specified
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+=== AdaBoost Regressor Performance ===
+R-squared: 0.445
+
+=== Stacking Regressor Performance ===
+R-squared: 0.475

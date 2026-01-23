@@ -1,0 +1,213 @@
+Problem Statement
+
+
+
+A healthcare analytics company is developing a predictive system to identify patients at risk of developing diabetes. Early detection of diabetes risk can enable healthcare providers to implement preventive measures, recommend lifestyle changes, and initiate timely medical interventions, ultimately improving patient outcomes and reducing healthcare costs.
+
+
+
+The company has collected a comprehensive dataset containing various health metrics, lifestyle factors, and medical history information from patients. This dataset includes features such as blood sugar levels, BMI, HbA1c levels, age, family history, physical activity, dietary habits, blood pressure readings, cholesterol levels, and other relevant health indicators. Each patient record is labeled as either diabetic or non-diabetic.
+
+
+
+To build a robust and reliable diabetes classification system, the data science team needs to implement an AdaBoost (Adaptive Boosting) classifier. AdaBoost is an ensemble learning method that combines multiple weak classifiers to create a strong classifier, making it particularly effective for binary classification problems in healthcare applications.
+
+
+
+Your task is to:
+
+
+
+Implement evaluation functions – Create a function to evaluate multi-label classifier performance using confusion matrix and classification report metrics.
+
+
+Build and train an AdaBoost classifier – Develop a function that trains an AdaBoost model using Repeated K-Fold Cross-Validation to ensure robust performance estimates and prevent overfitting.
+
+
+Evaluate model performance – Use cross-validation to compute accuracy, recall, F1-score, and precision metrics, providing comprehensive insights into the model's predictive capabilities.
+
+
+The implementation will be done in a custom module (ML_Modules.py) that contains reusable functions for model training and evaluation. The main program will load the patient data, prepare the features and target variables, and invoke the AdaBoost classifier to generate predictions and performance metrics.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+Fasting Blood Sugar Level,BMI,HbA1c Level,Age,Family History of Diabetes,Physical Activity Level,Dietary Habits,BP_Upper value,BP_Lower value,Cholesterol Levels,Medications Used,Number of Doctor Visits,Stress Level,Hours of Sleep,Comorbidities,Geographical Location,Insurance Coverage,Lab Test Frequency,Recent Hospitalization,Diabetic
+
+0.451606855329901,-0.686126627490211,-1.07091585770892,0.068240691802013,1.2108225490864,-1.31756528458469,-0.389490077359283,1.04426873302837,0.230479097549227,-1.10369122472611,-1.62388116069522,1.3661029840265,-0.414795285381972,1.2346171798977,-0.931359159695469,-1.52570869487941,-1.2108225490864,0.109046876787852,-1.41556778881054,1
+
+-0.237949151380741,-0.147340043194588,-0.0908541938405148,0.211352943047059,1.2108225490864,-1.07052951359291,0.895955722506338,-0.277050888354467,0.299900512473693,0.428943014933993,-1.62388116069522,-1.38282563311411,0.871391646034995,-0.134675461877452,0.889479862192056,-1.52570869487941,-1.2108225490864,1.26757943230288,-0.702973885558317,1
+
+0.615557763289342,-0.805163813460941,-0.0328948501538873,-1.4105859043968,-0.825884850554304,-0.576457971609333,-1.67493587722491,-1.34263122817934,0.994114661718355,0.777948525756007,1.2141416215138,-1.15374824835239,-0.414795285381972,-0.512700799167024,0.889479862192056,0.655433113382789,0.825884850554304,0.398680015666609,1.43480782419835,0
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing patient health data.
+Input must include the file extension .csv.
+Output format :
+The program generates the following outputs in sequence:
+
+
+
+1. First 5 Rows of Data:
+
+
+
+Displays the first 5 rows of the DataFrame showing all feature columns and the target variable
+Shows in tabular format with column names and row indices
+Includes a summary line:
+[5 rows x 20 columns] indicating the dimensions of the preview
+Followed by a blank line
+
+
+2. Confusion Matrix:
+
+
+
+Prints the heading: Confusion Matrix
+Displays a 2x2 confusion matrix showing:
+True Negatives (top-left): Non-diabetic patients correctly predicted
+False Positives (top-right): Non-diabetic patients incorrectly predicted as diabetic
+False Negatives (bottom-left): Diabetic patients incorrectly predicted as non-diabetic
+True Positives (bottom-right): Diabetic patients correctly predicted
+Format: 2D array with proper alignment
+Followed by: =================== and a blank line
+
+
+3. Classification Report:
+
+
+
+Prints the heading: Classification Report:
+Displays a detailed classification report table containing:
+Per-class metrics (for classes 0 and 1):
+precision
+recall
+f1-score
+support
+Overall metrics:
+accuracy
+macro avg
+weighted avg
+All metrics displayed with 2 decimal precision
+Followed by: ===================
+
+
+4. Cross-Validation Metrics:
+
+
+
+Prints four lines showing average performance across all cross-validation folds:
+accuracy: X.XXX
+recall: X.XXX
+f1-score: X.XXX
+precision: X.XXX
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+Input file must be a comma-separated CSV file with .csv extension.
+The CSV file must exist in the same directory as the Python script.
+The dataset must contain 20 columns in total.
+The last column must be named Diabetic (case-sensitive).
+The first 19 columns must be numeric feature values.
+The Diabetic column must contain binary class labels:
+0 → Non-diabetic
+1 → Diabetic
+
+
+Data Constraints
+
+
+
+All feature values must be numeric (integer or float).
+The dataset must contain at least one row of data (excluding header).
+No missing values handling is required.
+
+
+ML_Modules.py Constraints
+
+
+
+The module must contain the following functions:
+evaluate_multilabel_classifier(y_true, y_pred)
+model_adaboost_classifier(X_class, y_class)
+All model training and evaluation logic must be implemented inside ML_Modules.py.
+
+
+Model & Evaluation Constraints
+
+
+
+The AdaBoost classifier must be implemented using sklearn.ensemble.AdaBoostClassifier.
+Repeated K-Fold cross-validation must be used with:
+n_splits = 5
+n_repeats = 2
+random_state = 42
+Model performance must be evaluated using:
+Accuracy
+Weighted Recall
+Weighted F1-score
+Weighted Precision
+Final evaluation results must be printed to the console.
+
+
+Program Execution Constraints
+
+
+
+The program must read the CSV filename using standard input.
+If the file is not found, the program must print Error: File '{filename}' not found. and terminate execution.
+The Diabetic column must be excluded from features before training.
+Feature matrix (X) and target vector (y) must be converted to NumPy arrays before passing to the model.
+All warnings must be suppressed during execution.
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+   Fasting Blood Sugar Level       BMI  ...  Recent Hospitalization  Diabetic
+0                   0.451607 -0.686127  ...               -1.415568         1
+1                  -0.237949 -0.147340  ...               -0.702974         1
+2                   0.615558 -0.805164  ...                1.434808         0
+3                   1.566136 -0.313286  ...                0.722214         1
+4                  -0.342080 -1.923223  ...               -0.702974         1
+
+[5 rows x 20 columns]
+
+Confusion Matrix
+[[ 5  0]
+ [ 0 45]]
+===================
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         5
+           1       1.00      1.00      1.00        45
+
+    accuracy                           1.00        50
+   macro avg       1.00      1.00      1.00        50
+weighted avg       1.00      1.00      1.00        50
+
+===================
+accuracy:  0.790
+recall: 0.790
+f1-score: 0.792
+precision: 0.815

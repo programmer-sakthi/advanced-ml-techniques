@@ -101,7 +101,7 @@ $$
 
 ---
 
-## 6️⃣ Why Naive Bayes Works Well (Despite Being Naive)
+## Why Naive Bayes Works Well (Despite Being Naive)
 
 ✔ Very fast  
 ✔ Works well with high-dimensional data  
@@ -112,7 +112,7 @@ That’s why it’s extremely popular in **text-based problems**.
 
 ---
 
-## 7️⃣ Common Applications
+## Common Applications
 
 ### 📨 Text Classification
 
@@ -135,7 +135,7 @@ That’s why it’s extremely popular in **text-based problems**.
 
 ---
 
-## 8️⃣ Types of Naive Bayes (Preview)
+## Types of Naive Bayes (Preview)
 
 We choose the variant based on data type:
 
@@ -149,7 +149,7 @@ We choose the variant based on data type:
 
 ---
 
-## 9️⃣ Advantages & Limitations
+## Advantages & Limitations
 
 ### ✅ Advantages
 
@@ -166,7 +166,7 @@ We choose the variant based on data type:
 
 ---
 
-## 🔟 Key Takeaways (Session 1)
+## Key Takeaways (Session 1)
 
 - Naive Bayes is a **probability-based classifier**
 - Based on **Bayes’ Theorem**
