@@ -1,0 +1,354 @@
+Problem Statement
+
+
+
+Divya, a new player in the mobile market, faces tough competition and needs a data-driven approach to price her smartphones effectively. She has collected smartphone sales data containing various technical specifications and features to understand pricing patterns in the market. Her goal is to classify smartphones into different price ranges (budget, mid-range, premium, ultra-premium) based on their features like battery power, RAM, internal memory, camera specifications, and other technical attributes.
+
+
+
+This classification model will help Divya:
+
+
+
+Develop competitive pricing strategies for her products
+Understand which features most strongly influence price categories
+Position her smartphones appropriately in the market
+Make informed decisions about feature prioritization for different price segments
+
+
+Before building any classification model, the data must be properly prepared through comprehensive preprocessing. Raw data often contains issues that can significantly impact model performance, and smartphone specifications data is no exception.
+
+
+
+The data scientist needs to:
+
+
+
+Load the smartphone dataset – Import the CSV file containing smartphone specifications and their corresponding price range classifications.
+
+
+Preview the dataset – Display the first 5 rows to understand the data structure and available features.
+
+
+Examine dataset information – Use .info() to understand data types, number of samples, memory usage, and confirm data structure.
+
+
+Check for missing values – Identify any null or missing values in each column that could affect model training.
+
+
+Separate features from target – Split the dataset into input features (all smartphone specifications) and the target variable (price_range) that will be predicted.
+
+
+Check for multicollinearity – Identify highly correlated features (|correlation| ≥ 0.7) that might cause redundancy or instability in the model. Display a boolean matrix showing which feature pairs have strong correlations.
+
+
+Scale the features – Apply StandardScaler to normalize all numeric features, ensuring they have mean=0 and standard deviation=1. This prevents features with larger scales from dominating the model.
+
+
+Display scaled features – Show the first 5 rows of the scaled dataset to confirm the scaling transformation was successful.
+
+
+This comprehensive data preparation ensures the smartphone dataset is clean, properly formatted, and optimized for building accurate price range classification models in subsequent tasks.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+battery_power,blue,clock_speed,dual_sim,fc,four_g,int_memory,m_dep,mobile_wt,n_cores,pc,px_height,px_width,ram,sc_h,sc_w,talk_time,three_g,touch_screen,wifi,price_range
+
+842,0,2.2,0,1,0,7,0.6,188,2,2,20,756,2549,9,7,19,0,0,1,1
+
+1021,1,0.5,1,0,1,53,0.7,136,3,6,905,1988,2631,17,3,7,1,1,0,2
+
+563,1,0.5,1,2,1,41,0.9,145,5,6,1263,1716,2603,11,2,9,1,1,0,2
+
+615,1,2.5,0,0,0,10,0.8,131,6,9,1216,1786,2769,16,8,11,1,0,0,2
+
+1821,1,1.2,0,13,1,44,0.6,141,2,14,1208,1212,1411,8,2,15,1,1,0,1
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing smartphone data.
+Input must include the file extension .csv.
+Output format :
+The program generates the following outputs in sequence:
+
+
+
+1. Dataset Load Confirmation:
+
+
+
+Prints: "Dataset loaded successfully."
+Followed by a blank line
+
+
+2. Dataset Preview:
+
+
+
+Prints: "Preview of dataset:"
+Displays first 5 rows using .head()
+Shows all 21 columns in tabular format
+Includes dimension summary: [5 rows x 21 columns]
+Followed by a blank line
+
+
+3. Dataset Information:
+
+
+
+Prints: "Dataset information:"
+Displays complete .info() output showing:
+DataFrame class: <class 'pandas.core.frame.DataFrame'>
+Index range and entry count
+All 21 columns with non-null counts and data types
+Data types summary (e.g., float64(2), int64(19))
+Memory usage
+Followed by a blank line
+
+
+4. Missing Values Check:
+
+
+
+Prints: "Missing values in each column:"
+Lists all 21 columns with their missing value counts
+Format: column name followed by count (typically 0 for clean data)
+Ends with dtype: int64
+Followed by a blank line
+
+
+5. Feature-Target Separation Confirmation:
+
+
+
+Prints: "Input and target variables separated."
+Followed by a blank line
+
+
+6. Multicollinearity Check:
+
+
+
+Prints: "Multicollinearity check:"
+Displays boolean matrix (20x20) showing True/False for correlations ≥ 0.7
+Diagonal values are True (each feature perfectly correlates with itself)
+Off-diagonal True values indicate highly correlated feature pairs
+Format: rows and columns labeled with feature names
+Includes dimension summary: [20 rows x 20 columns]
+Followed by a blank line
+
+
+7. Scaled Features Preview:
+
+
+
+Prints: "Scaled input features (first 5 rows):"
+Displays first 5 rows of standardized features
+Values are z-score normalized (mean≈0, std≈1)
+Shows both positive and negative standardized values
+Includes dimension summary: [5 rows x 20 columns]
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+File must be comma-separated CSV with .csv extension
+File must exist in same directory as the Python script
+File must contain exactly 21 columns with exact names (case-sensitive): battery_power, blue, clock_speed, dual_sim, fc, four_g, int_memory, m_dep, mobile_wt, n_cores, pc, px_height, px_width, ram, sc_h, sc_w, talk_time, three_g, touch_screen, wifi, price_range
+Must contain at least 1 row of data (excluding header)
+
+
+Column Data Type Constraints
+
+
+
+Integer columns (int64): battery_power, blue, dual_sim, fc, four_g, int_memory, mobile_wt, n_cores, pc, px_height, px_width, ram, sc_h, sc_w, talk_time, three_g, touch_screen, wifi, price_range
+Float columns (float64): clock_speed, m_dep
+Binary features (0 or 1): blue, dual_sim, four_g, three_g, touch_screen, wifi
+price_range: Integer values 0, 1, 2, or 3 (target variable)
+
+
+Feature and Target Selection
+
+
+
+Input Features: All 20 columns except price_range
+Target Variable: price_range column only
+Separation Method: Uses column filtering with .loc[:, mobile_df.columns != 'price_range']
+
+
+Multicollinearity Check Constraints
+
+
+
+Method: Computes absolute correlation matrix and checks if values ≥ 0.7
+Output: Boolean matrix (20x20) showing True/False
+Interpretation:
+Diagonal is always True (self-correlation = 1.0)
+Off-diagonal True indicates highly correlated features
+Function: check_correlation_text() from ML_Modules.py
+Display: Prints boolean matrix directly using print(abs(input_df.corr()) >= 0.7)
+
+
+Data Scaling Constraints
+
+
+
+Method: StandardScaler from sklearn.preprocessing
+Formula: z = (x - mean) / std
+Result: Scaled features have mean≈0, std≈1
+Applied To: Only numeric columns (selects using .select_dtypes(include='number'))
+Output: Pandas DataFrame with same column names
+Function: data_scale() from ML_Modules.py
+
+
+Program Processing Constraints
+
+
+
+If CSV file not found: prints Error: File '{filename}' not found. and exits
+All warnings suppressed using warnings.filterwarnings("ignore")
+Dataset information uses .info() method
+Missing values checked using .isnull().sum()
+Scaled features preserve original column names and order
+
+
+ML_Modules.py Requirements
+
+
+
+check_correlation_text(input_df) function:
+
+Computes absolute correlation matrix
+Checks if correlations ≥ 0.7
+Prints boolean matrix directly
+
+
+data_scale(X_DT) function:
+
+Selects numeric columns only
+Applies StandardScaler
+Returns DataFrame with same column names
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+Dataset loaded successfully.
+
+Preview of dataset:
+   battery_power  blue  clock_speed  ...  touch_screen  wifi  price_range
+0            842     0          2.2  ...             0     1            1
+1           1021     1          0.5  ...             1     0            2
+2            563     1          0.5  ...             1     0            2
+3            615     1          2.5  ...             0     0            2
+4           1821     1          1.2  ...             1     0            1
+
+[5 rows x 21 columns]
+
+Dataset information:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 50 entries, 0 to 49
+Data columns (total 21 columns):
+ #   Column         Non-Null Count  Dtype  
+---  ------         --------------  -----  
+ 0   battery_power  50 non-null     int64  
+ 1   blue           50 non-null     int64  
+ 2   clock_speed    50 non-null     float64
+ 3   dual_sim       50 non-null     int64  
+ 4   fc             50 non-null     int64  
+ 5   four_g         50 non-null     int64  
+ 6   int_memory     50 non-null     int64  
+ 7   m_dep          50 non-null     float64
+ 8   mobile_wt      50 non-null     int64  
+ 9   n_cores        50 non-null     int64  
+ 10  pc             50 non-null     int64  
+ 11  px_height      50 non-null     int64  
+ 12  px_width       50 non-null     int64  
+ 13  ram            50 non-null     int64  
+ 14  sc_h           50 non-null     int64  
+ 15  sc_w           50 non-null     int64  
+ 16  talk_time      50 non-null     int64  
+ 17  three_g        50 non-null     int64  
+ 18  touch_screen   50 non-null     int64  
+ 19  wifi           50 non-null     int64  
+ 20  price_range    50 non-null     int64  
+dtypes: float64(2), int64(19)
+memory usage: 8.3 KB
+
+Missing values in each column:
+battery_power    0
+blue             0
+clock_speed      0
+dual_sim         0
+fc               0
+four_g           0
+int_memory       0
+m_dep            0
+mobile_wt        0
+n_cores          0
+pc               0
+px_height        0
+px_width         0
+ram              0
+sc_h             0
+sc_w             0
+talk_time        0
+three_g          0
+touch_screen     0
+wifi             0
+price_range      0
+dtype: int64
+
+Input and target variables separated.
+
+Multicollinearity check:
+               battery_power   blue  clock_speed  ...  three_g  touch_screen   wifi
+battery_power           True  False        False  ...    False         False  False
+blue                   False   True        False  ...    False         False  False
+clock_speed            False  False         True  ...    False         False  False
+dual_sim               False  False        False  ...    False         False  False
+fc                     False  False        False  ...    False         False  False
+four_g                 False  False        False  ...    False         False  False
+int_memory             False  False        False  ...    False         False  False
+m_dep                  False  False        False  ...    False         False  False
+mobile_wt              False  False        False  ...    False         False  False
+n_cores                False  False        False  ...    False         False  False
+pc                     False  False        False  ...    False         False  False
+px_height              False  False        False  ...    False         False  False
+px_width               False  False        False  ...    False         False  False
+ram                    False  False        False  ...    False         False  False
+sc_h                   False  False        False  ...    False         False  False
+sc_w                   False  False        False  ...    False         False  False
+talk_time              False  False        False  ...    False         False  False
+three_g                False  False        False  ...     True         False  False
+touch_screen           False  False        False  ...    False          True  False
+wifi                   False  False        False  ...    False         False   True
+
+[20 rows x 20 columns]
+
+Scaled input features (first 5 rows):
+   battery_power      blue  clock_speed  ...   three_g  touch_screen      wifi
+0      -0.661105 -1.128152     0.818474  ... -2.478479     -0.922958  1.083473
+1      -0.286381  0.886405    -1.141253  ...  0.403473      1.083473 -0.922958
+2      -1.245172  0.886405    -1.141253  ...  0.403473      1.083473 -0.922958
+3      -1.136314  0.886405     1.164309  ...  0.403473     -0.922958 -0.922958
+4       1.388363  0.886405    -0.334306  ...  0.403473      1.083473 -0.922958
+
+[5 rows x 20 columns]
