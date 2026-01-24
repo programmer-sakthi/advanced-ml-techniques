@@ -1,17 +1,22 @@
+import os
+import sys
+
+
+def get_file_path(filename):
+    return os.path.join(sys.path[0], filename)
+
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
-import os
-import sys
 
 # Read file path
-file_path = os.path.join(sys.path[0], input().strip())
+file_path = input().strip()
 
 # Load dataset
-
-df = pd.read_csv(file_path)
+df = pd.read_csv(get_file_path(file_path))
 
 # Encode categorical features
 le = LabelEncoder()
@@ -39,5 +44,6 @@ accuracy = accuracy_score(y_test, y_pred)
 cm = confusion_matrix(y_test, y_pred)
 
 # Output
-print(f"Accuracy: {f"{accuracy:.2f}"}")
+accuracy = f"{accuracy:.2f}"
+print(f"Accuracy: {accuracy}")
 print("Confusion Matrix:\n", cm)
