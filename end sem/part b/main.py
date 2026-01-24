@@ -1,15 +1,17 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
+import os
+import sys
 
 # Read dataset name/path from input
-file_path = input().strip()
+file_path = os.path.join(sys.path[0], input().strip())
 
 # Load the dataset
 data = pd.read_csv(file_path)
 
 # Select only numerical columns
-X = data.select_dtypes(include=['float64', 'int64'])
+X = data.select_dtypes(include=["float64", "int64"])
 
 # Standardize the dataset
 scaler = StandardScaler()

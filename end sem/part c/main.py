@@ -3,11 +3,14 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
+import os
+import sys
 
 # Read file path
-file_path = input().strip()
+file_path = os.path.join(sys.path[0], input().strip())
 
 # Load dataset
+
 df = pd.read_csv(file_path)
 
 # Encode categorical features
