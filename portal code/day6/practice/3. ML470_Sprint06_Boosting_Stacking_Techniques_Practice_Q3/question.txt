@@ -1,0 +1,271 @@
+Problem Statement
+
+
+
+Divya is tasked with building a classification model to predict smartphone price ranges based on technical specifications provided in a raw dataset. Starting from the original CSV file, she must perform the necessary preprocessing and model evaluation steps to assess the effectiveness of an ensemble-based classifier.
+
+
+
+In this task, Divya will use AdaBoost (Adaptive Boosting), an ensemble learning algorithm that improves classification performance by combining multiple weak learners into a strong classifier. To ensure the evaluation is robust and unbiased, the model’s predictions will be generated using Repeated K-Fold Cross-Validation, allowing every data sample to participate in both training and validation.
+
+
+
+To complete this task, the data scientist must:
+
+
+
+Load the smartphone dataset by importing the CSV file containing device specifications and their corresponding price range labels.
+
+
+Separate features and target variable by dividing the dataset into input features (smartphone specifications) and the target output (price_range).
+
+
+Scale the input features using StandardScaler to standardize all numeric variables for improved model performance.
+
+
+Convert the processed data into NumPy arrays to ensure compatibility with scikit-learn estimators.
+
+
+Configure Repeated K-Fold Cross-Validation using 10 folds, a single repeat, and a fixed random state to maintain reproducibility.
+
+
+Train an AdaBoost classifier and generate cross-validated predictions for the entire dataset using the defined validation strategy.
+
+
+Evaluate the model’s performance by computing and displaying:
+A Confusion Matrix to visualize true versus predicted labels across all four price categories
+A Classification Report summarizing precision, recall, F1-score, and support for each class
+Overall performance metrics including accuracy, weighted recall, weighted F1-score, and weighted precision
+
+
+This evaluation enables Divya to objectively assess how well the AdaBoost model predicts smartphone price ranges across different categories, providing a reliable basis for further optimization or deployment in pricing-related applications.
+
+
+
+CSV File Structure
+
+
+
+﻿
+
+
+
+Sample Data
+
+
+
+battery_power,blue,clock_speed,dual_sim,fc,four_g,int_memory,m_dep,mobile_wt,n_cores,pc,px_height,px_width,ram,sc_h,sc_w,talk_time,three_g,touch_screen,wifi,price_range
+
+842,0,2.2,0,1,0,7,0.6,188,2,2,20,756,2549,9,7,19,0,0,1,1
+
+1021,1,0.5,1,0,1,53,0.7,136,3,6,905,1988,2631,17,3,7,1,1,0,2
+
+563,1,0.5,1,2,1,41,0.9,145,5,6,1263,1716,2603,11,2,9,1,1,0,2
+
+615,1,2.5,0,0,0,10,0.8,131,6,9,1216,1786,2769,16,8,11,1,0,0,2
+
+1821,1,1.2,0,13,1,44,0.6,141,2,14,1208,1212,1411,8,2,15,1,1,0,1
+
+Input format :
+CSV File Input:
+
+The program prompts the user to enter the name of the CSV file containing smartphone data.
+Input must include the file extension .csv.
+Output format :
+The program generates the following outputs in sequence:
+
+
+
+1. Confusion Matrix:
+
+
+
+Prints: "Confusion Matrix"
+Displays a 4×4 matrix showing actual vs predicted classifications
+Rows represent true labels (0, 1, 2, 3)
+Columns represent predicted labels (0, 1, 2, 3)
+Each cell shows the count of samples
+Format: NumPy array notation with square brackets
+Followed by: "==================="
+Then a blank line
+
+
+2. Classification Report:
+
+
+
+Prints: "Classification Report:"
+Displays detailed metrics for each price range class (0, 1, 2, 3)
+Columns: precision, recall, f1-score, support
+Additional rows:
+accuracy: Overall accuracy with support count
+macro avg: Unweighted mean of metrics across classes
+weighted avg: Weighted mean of metrics by class support
+Values displayed with 2 decimal places
+Followed by: "==================="
+
+
+3. Overall Metrics:
+
+
+
+Prints four metrics, each on a separate line with 3 decimal places:
+"accuracy: X"
+"recall: X"
+"f1-score: X"
+"precision: X"
+All metrics except accuracy use weighted averaging across classes
+
+
+Refer to the sample output for exact formatting specifications.
+
+Code constraints :
+CSV File Constraints
+
+
+
+Input file must be a comma-separated CSV with a .csv extension
+CSV file must exist in the same directory as the Python script
+File must contain the required smartphone feature columns and a price_range target column
+Dataset must contain a sufficient number of rows to support 10-fold cross-validation
+
+
+Column Data Type Constraints
+
+
+
+Numeric columns include all smartphone specification features
+Target column (price_range) must contain integer class labels
+Valid values for price_range are: 0, 1, 2, or 3
+
+
+Feature and Target Selection
+
+
+
+Input Features: All columns except price_range
+Target Variable: price_range column only
+Both features and target are converted to NumPy arrays using .values for compatibility with scikit-learn models
+
+
+Data Scaling Constraints
+
+
+
+Scaling Method: StandardScaler from sklearn.preprocessing
+Applied To: All numeric input features
+Purpose: Normalize features for improved model performance
+Implementation: Performed using the data_scale() function in ML_Modules.py
+
+
+Repeated K-Fold Configuration
+
+
+
+Cross-Validation Method: RepeatedKFold from sklearn.model_selection
+Number of Splits: 10
+Number of Repeats: 1
+Random State: Fixed to ensure reproducibility
+Purpose: Ensure that each data sample is used for both training and validation
+
+
+AdaBoost Model Configuration
+
+
+
+Model Used: AdaBoostClassifier from sklearn.ensemble
+Model is trained using default configuration suitable for multiclass classification
+Cross-validation is used to generate predictions across the full dataset
+
+
+Cross-Validation Prediction
+
+
+
+Method: cross_val_predict from sklearn.model_selection
+Purpose: Generate predictions for each sample when it appears in the validation fold
+Outcome: Each sample is predicted exactly once using a model trained without that sample
+
+
+Evaluation Metrics
+
+
+
+Confusion Matrix
+A 4 × 4 matrix corresponding to the four price range classes (0–3)
+Rows represent true labels and columns represent predicted labels
+Diagonal values indicate correct predictions
+
+
+Classification Report
+Displays precision, recall, F1-score, and support for each price range class
+Includes macro and weighted averages
+Output format matches the scikit-learn classification report
+
+
+Overall Metrics (Printed Separately)
+Accuracy
+Weighted Recall
+Weighted F1-Score
+Weighted Precision
+All metrics follow the formatting shown in the sample output
+
+
+Program Processing Constraints
+
+
+
+If the CSV file is not found, the program prints: Error: File '{filename}' not found. and exits
+All warnings are suppressed
+Feature scaling is performed before model training
+Model training and evaluation are handled inside model_adaboost_classifier()
+All evaluation metrics are computed using cross-validated predictions
+
+
+ML_Modules.py Requirements
+
+﻿
+
+data_scale(X_DT)
+Selects numeric feature columns
+Applies StandardScaler
+Returns a scaled DataFrame with original column names preserved
+
+
+model_adaboost_classifier(X, y)
+Accepts NumPy arrays for features (X) and target (y)
+Configures 10-fold Repeated K-Fold cross-validation
+Trains an AdaBoost classifier using cross-validation
+Generates predictions using cross_val_predict
+Prints:
+Confusion Matrix
+Classification Report
+Accuracy, Recall, F1-score, and Precision (formatted to 3 decimal places)
+Sample test cases :
+Input 1 :
+Sample.csv
+Output 1 :
+Confusion Matrix
+[[11  0  0  0]
+ [ 3 12  0  0]
+ [ 0  8  0  1]
+ [ 0  1 12  2]]
+===================
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.79      1.00      0.88        11
+           1       0.57      0.80      0.67        15
+           2       0.00      0.00      0.00         9
+           3       0.67      0.13      0.22        15
+
+    accuracy                           0.50        50
+   macro avg       0.51      0.48      0.44        50
+weighted avg       0.54      0.50      0.46        50
+
+===================
+accuracy: 0.500
+recall: 0.500
+f1-score: 0.460
+precision: 0.544
