@@ -39,5 +39,5 @@ accuracy = accuracy_score(y_test, y_pred)
 cm = confusion_matrix(y_test, y_pred)
 
 # Output
-print(f"Accuracy: {accuracy}")
+print(f"Accuracy: {f"{accuracy:.2f}"}")
 print("Confusion Matrix:\n", cm)
