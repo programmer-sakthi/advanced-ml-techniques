@@ -1,0 +1,63 @@
+Problem Statement
+
+
+
+﻿A banking institution wants to improve its marketing strategy by predicting whether a customer is likely to subscribe to a term deposit.
+
+
+
+The dataset contains customer demographic details, contact information, and past interaction history with the bank.
+
+You are required to preprocess the dataset, train a Decision Tree Classifier, and evaluate its performance using appropriate classification metrics.
+
+Load the customer dataset
+
+Convert categorical features into numerical values
+
+le = LabelEncoder()
+
+for col in df.select_dtypes(include='object'):
+
+    df[col] = le.fit_transform(df[col])
+
+Split the dataset into training and testing sets
+
+Train a Decision Tree Classifier with limited depth (Look into code constraints)
+
+Evaluate the model using:
+
+Accuracy
+Confusion Matrix
+
+
+Input format :
+First line read the csv file from a directory
+
+
+
+Output format :
+first line print the accuracy score
+
+Second line print the Confusion matrix
+
+For reference kindly look to sample output.
+
+Code constraints :
+Algorithm: DecisionTreeClassifier
+
+max_depth = 3 and random_state = 42
+
+Train-Test split: 80% – 20% and random_state = 42
+
+Use LabelEncoder for categorical features
+
+
+
+Sample test cases :
+Input 1 :
+sample1.csv
+Output 1 :
+Accuracy: 0.94
+Confusion Matrix:
+ [[16  1]
+ [ 0  0]]

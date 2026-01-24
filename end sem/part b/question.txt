@@ -1,0 +1,35 @@
+Problem Statement
+
+
+A data analyst is working with a dataset containing multiple numerical features and wants to reduce its dimensionality while preserving the maximum amount of information.
+
+Dataset used is iris.csv
+
+Apply Principal Component Analysis (PCA) to reduce the dataset to two principal components and analyze the variance captured.
+
+ Objective
+Standardize the dataset using standarad scaler
+Apply PCA with 2 components
+Display the explained variance ratio
+
+
+Input format :
+First line read the dataset from directory
+
+Output format :
+First line print the Explained variance ration
+
+For reference please look to sample output
+
+Code constraints :
+Use StandardScaler
+
+n_components = 2
+
+No classification model required
+
+Sample test cases :
+Input 1 :
+sample1.csv
+Output 1 :
+Explained Variance Ratio: [0.73103203 0.22641997]
